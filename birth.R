@@ -58,7 +58,7 @@ birth <- vital |>
   ) +
   scale_y_continuous(
     labels = scales::label_comma(),
-    limits = c(0, 350000)
+    limits = c(0, 3500000)
   ) +
   theme_classic()
 
