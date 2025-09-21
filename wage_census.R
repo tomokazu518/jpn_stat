@@ -1,5 +1,6 @@
 library(tidyverse)
 library(estatapi)
+library(patchwork)
 
 # e-statのappIDが必要
 #   以下のページで利用申請(無料)をすればだれでも入手できる
@@ -92,3 +93,4 @@ graph_female <- standard |>
   theme_classic()
 
 plot(graph_male + graph_female)
+
