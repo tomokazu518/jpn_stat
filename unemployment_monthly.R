@@ -2,11 +2,6 @@ library(tidyverse)
 library(readxl)
 library(RColorBrewer)
 
-# e-statのappIDが必要
-#   以下のページで利用申請(無料)をすればだれでも入手できる
-#   https://www.e-stat.go.jp/api/
-# appID = "入手したappIDをここに設定（行頭の#を外す）"
-
 # グラフのテーマ
 theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
 
@@ -20,7 +15,7 @@ download.file(
 
 labor_unemployment <-
   read_excel("files/unemployment.xlsx",
-    sheet = "季節調整値", range = "E71:L658", col_names = F
+    sheet = "季節調整値", range = "E71:L677", col_names = F
   )
 labor_unemployment <-
   rename(labor_unemployment,
@@ -31,8 +26,9 @@ labor_unemployment <-
 
 # 1975-01 ~ 2023-12までの日付作成
 
-for (i in 1975:2023) {
-  tmp <- paste(i, "-", seq(1:12), "-01", sep = "")
+for (i in 1975:2025) {
+  if(i == 2025){tmp <- paste(i, "-", seq(1:7), "-01", sep = "")} 
+  else{tmp <- paste(i, "-", seq(1:12), "-01", sep = "")}
   if (i == 1975) {
     month <- tmp
   } else {
