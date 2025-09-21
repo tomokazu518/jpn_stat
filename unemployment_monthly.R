@@ -62,6 +62,14 @@ graph_unemployment_recent <- unemployment %>%
       a45_54 = "45〜54歳",
       total  = "年齢計"
     )
+  )+
+  scale_x_date(
+    breaks = seq.Date(
+      from = as.Date("2019-01-01"),
+      to = as.Date("2025-01-01"),
+      by = "12 months"
+    ),
+    date_labels = "%Y"
   ) +
   labs(x = "", y = "失業率")
 
