@@ -1,6 +1,5 @@
 library(tidyverse)
 library(estatapi)
-library(patchwork)
 
 # e-statのappIDが必要
 #   以下のページで利用申請(無料)をすればだれでも入手できる
@@ -55,7 +54,8 @@ standard <- estat_getStatsData(
     wage = (所定内給与額 * 12 + 年間賞与その他特別給与額) / 10
   )
 
-graph_male <- standard |>
+# 学歴別賃金プロファイル
+graph_education <- standard |>
   filter(
     firm_size == "企業規模計（10人以上）",
     age <= 60,
@@ -73,7 +73,10 @@ graph_male <- standard |>
   facet_wrap(~ gender) +
   theme_classic()
 
-graph_female <- standard |>
+plot(graph_education)
+
+# 大卒の企業規模別賃金プロファイル
+graph_firmsize <- standard |>
   filter(
     education == "大学",
     firm_size != "企業規模計（10人以上）",
@@ -92,5 +95,4 @@ graph_female <- standard |>
   facet_wrap(~ gender) +
   theme_classic()
 
-plot(graph_male + graph_female)
-
+plot(graph_firmsize)
