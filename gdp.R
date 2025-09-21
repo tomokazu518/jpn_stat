@@ -131,8 +131,9 @@ for (i in seq_along(start)) {
   # 期間の限定
   graphdata <- filter(growth, number >= start[i] & number <= end[i])
 
-  # x軸の目盛りラベル（各年の第一四半期にのみラベル）
-  xlabels <- unique(graphdata$year)
+  # x軸の目盛りラベル（2年おきにラベル）
+  years <- unique(graphdata$year)
+  xlabels <- years[seq(1, length(years), by = 2)]  # 2年おき
 
   # ggplot
 
@@ -177,7 +178,7 @@ for (i in seq_along(start)) {
     ) +
     scale_x_continuous(
       name = "", # x軸のラベルの設定
-      breaks = seq(start[i], end[i], by = 4),
+      breaks = seq(start[i], end[i], by = 8),  # 2年おき（8四半期おき）
       labels = xlabels
     ) +
     scale_y_continuous(name = "") +
