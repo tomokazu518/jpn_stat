@@ -24,7 +24,7 @@ labor_unemployment <-
   ) %>%
   filter(!is.na(total))
 
-# 1975-01 ~ 2023-12までの日付作成
+# 1975-01 ~ 2025-07までの日付作成
 
 for (i in 1975:2025) {
   if(i == 2025){tmp <- paste(i, "-", seq(1:7), "-01", sep = "")} 
