@@ -19,7 +19,7 @@ nominal_gdp <- estat_getStatsData(
   cdCat01 = "47"
 ) |>
   mutate(
-    year = as.numeric(time_code)/1000000,
+    year = as.numeric(time_code) / 1000000,
     `名目GDP` = value
   ) |>
   select(year, `名目GDP`)
@@ -31,15 +31,15 @@ real_gdp <- estat_getStatsData(
   cdCat01 = "67"
 ) |>
   mutate(
-    year = as.numeric(time_code)/1000000,
+    year = as.numeric(time_code) / 1000000,
     `実質GDP` = value
   ) |>
   select(year, `実質GDP`)
 
 gdp <- merge(nominal_gdp, real_gdp, by = "year")
 
-gdp <- gdp |> 
-  mutate(`GDPデフレータ` = `名目GDP` / `実質GDP` * 100) %>% 
+gdp <- gdp |>
+  mutate(`GDPデフレータ` = `名目GDP` / `実質GDP` * 100) |>
   pivot_longer(cols = - year)
 
 g1 <- gdp |>
