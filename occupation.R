@@ -3,7 +3,7 @@ library(ggrepel)
 library(readxl)
 library(patchwork)
 
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
+theme_set(theme_classic(base_family = "IPAexGothic", base_size = 12))
 
 # 労働力調査　長期時系列【表６】年平均結果 6-2 職業別就業者数
 download.file(
