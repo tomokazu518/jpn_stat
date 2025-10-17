@@ -84,8 +84,8 @@ g1 <- long_data_1 %>%
   geom_point(size = 1) +
   ylim(0, 2000) +
   labs(x = "", y = "就業者数 (万人)") +
-  ggrepel::geom_label_repel(
-    data = dplyr::filter(long_data_1, year == 1993),
+  geom_label_repel(
+    data = filter(long_data_1, year == 1993),
     aes(label = occupation),
     size = 4, show.legend = FALSE
   ) +
@@ -98,13 +98,12 @@ g2 <- long_data_2 %>%
   geom_point(size = 1) +
   ylim(0, 2000) +
   labs(x = "", y = "") +
-  ggrepel::geom_label_repel(
-    data = dplyr::filter(long_data_2, year == 2016),
+  geom_label_repel(
+    data = filter(long_data_2, year == 2016),
     aes(label = occupation),
     size = 4, show.legend = FALSE
   ) +
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
   theme(legend.position = "none")
 
-plot(g1)
-plot(g2)
+plot(g1 + g2)
