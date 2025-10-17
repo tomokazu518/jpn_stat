@@ -87,7 +87,7 @@ g1 <- long_data_1 %>%
   geom_label_repel(
     data = filter(long_data_1, year == 1993),
     aes(label = occupation),
-    size = 4, show.legend = FALSE
+    size = 3, show.legend = FALSE
   ) +
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
   theme(legend.position = "none")
@@ -101,7 +101,7 @@ g2 <- long_data_2 %>%
   geom_label_repel(
     data = filter(long_data_2, year == 2016),
     aes(label = occupation),
-    size = 4, show.legend = FALSE
+    size = 3, show.legend = FALSE
   ) +
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
   theme(legend.position = "none")
