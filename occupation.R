@@ -1,7 +1,6 @@
 library(tidyverse)
 library(ggrepel)
 library(readxl)
-library(patchwork)
 
 theme_set(theme_classic(base_family = "IPAexGothic", base_size = 12))
 
@@ -107,4 +106,5 @@ g2 <- long_data_2 %>%
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
   theme(legend.position = "none")
 
-plot(g1 + g2)
+plot(g1)
+plot(g2)
