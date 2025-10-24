@@ -12,7 +12,7 @@ theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
 standard <- estat_getStatsData(
   appId = appID,
   cdTab = c("42", "44"),
-  statsDataId = "0003447178", 
+  statsDataId = "0003447178",
   cdCat01 = c("02", "03"),         # 性別　男・女
   cdCat02 = c("03", "06", "07"),   # 学歴　高校・大学・大学院
   cdCat05 = "01",                  # 産業計
@@ -71,7 +71,11 @@ graph_education <- standard |>
     y = "年収(万円)"
   ) +
   facet_wrap(~ gender) +
-  theme_classic()
+  theme_classic() +
+  theme(
+    panel.grid.major = element_line(color = "grey85", linewidth = 0.3),
+    panel.grid.minor = element_line(color = "grey92", linewidth = 0.2)
+  )
 
 plot(graph_education)
 
@@ -93,6 +97,10 @@ graph_firmsize <- standard |>
     y = "年収(万円)"
   ) +
   facet_wrap(~ gender) +
-  theme_classic()
+  theme_classic() +
+  theme(
+    panel.grid.major = element_line(color = "grey85", linewidth = 0.3),
+    panel.grid.minor = element_line(color = "grey92", linewidth = 0.2)
+  )
 
 plot(graph_firmsize)
