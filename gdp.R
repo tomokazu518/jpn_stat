@@ -183,6 +183,10 @@ for (i in seq_along(start)) {
       breaks = seq(start[i], end[i], by = 8),  # 2年おき（8四半期おき）
       labels = xlabels
     ) +
-    scale_y_continuous(name = "")
+    scale_y_continuous(name = "") +
+    theme(
+      legend.title = element_text(size = 10),
+      legend.text = element_text(size = 9)
+    )
   plot(g)
 }
