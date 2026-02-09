@@ -1,3 +1,5 @@
+## ---- setup ----
+
 library(tidyverse)
 library(estatapi)
 library(patchwork)
@@ -9,6 +11,8 @@ library(patchwork)
 
 # グラフのテーマ
 theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
+
+## ---- data ----
 
 # e-Statからデータ取得
 estat_vital <- estat_getStatsData(
@@ -26,7 +30,10 @@ vital <- estat_vital |>
   filter(year >= 1947) |>
   pivot_wider(names_from = name)
 
-# グラフ作成
+## ---- plot_birth ----
+
+# 出生数のグラフ
+
 birth <- vital |>
   ggplot(
     aes(
@@ -62,6 +69,8 @@ birth <- vital |>
   ) +
   theme_classic()
 
+# 合計特殊出生率のグラフ
+
 tfr <- vital |>
   ggplot(
     aes(
@@ -91,5 +100,6 @@ tfr <- vital |>
   theme_classic()
 
 # patchworkパッケージを使ったプロット
+
 graph <- birth + tfr + plot_layout(ncol = 1)
 plot(graph)
