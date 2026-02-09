@@ -81,6 +81,9 @@ graph_unemployment_recent <- unemployment %>%
 
 plot(graph_unemployment_recent)
 
+
+## ---- long-term ----
+
 ### 長期のグラフ
 
 graph_unemployment_longtime <- unemployment |>
