@@ -1,3 +1,5 @@
+## ---- setup ----
+
 library(tidyverse)
 library(estatapi)
 library(patchwork)
@@ -11,8 +13,10 @@ library(RColorBrewer)
 # グラフのテーマ
 theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
 
+## ---- data ----
+
 # データ取得
-# 四半期GDP速報のstatsDataIdは　"0003109750"
+# 四半期GDP速報のstatsDataIdは"0003109750"
 qgdp <- estat_getStatsData(
   appId = appID,
   statsDataId = "0003109750"
@@ -78,10 +82,6 @@ qgdp <- qgdp |>
     # 寄与度は積み上げ棒グラフの順でA~Fの記号を振る
   )
 
-length <- nrow(qgdp) # データの長さ
-
-## グラフ作成
-
 # グラフ作成に必要な経済成長率と寄与度だけ残してlong型に変換
 growth <- select(
   qgdp,
@@ -110,6 +110,8 @@ palette <- c(
   "#CC79A7"
 )
 
+## ---- plot_gdp ----
+
 # グラフの凡例
 legends <- c(
   contA_error = "開差",
@@ -121,7 +123,7 @@ legends <- c(
 )
 
 # グラフを描く期間の指定
-
+length <- nrow(qgdp) # データの長さ
 start <- c(5, 53, 101) # 期間の始めと終わりを通し番号で指定
 end <- c(52, 100, length) # startは第一四半期(4の倍数+1)になるように
 
