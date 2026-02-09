@@ -163,7 +163,7 @@ for (i in seq_along(start)) {
         y = value,
         color = name
       ),
-      linewidth = 0.8
+      linewidth = 0.6
     ) +
     geom_point(# マーカー
       data = filter(graphdata, name == "growth"),
@@ -171,7 +171,8 @@ for (i in seq_along(start)) {
         x = number,
         y = value,
         color = name
-      )
+      ),
+      size = 1
     ) +
     scale_color_manual( # 色と凡例の設定
       name = "",
