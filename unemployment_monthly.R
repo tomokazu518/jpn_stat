@@ -5,7 +5,7 @@ library(RColorBrewer)
 # グラフのテーマ
 theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
 
-# 失業率（月次） 季節調整値  
+# 失業率（月次） 季節調整値
 # 労働力調査　基本集計　全都道府県　長期時系列データ　季節調整値　表番号1-a-9
 download.file(
   "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000031831365&fileKind=0",
@@ -21,7 +21,7 @@ labor_unemployment <-
   rename(labor_unemployment,
     total = ...1, a15_64 = ...2, a15_24 = ...3, a25_34 = ...4, a35_44 = ...5,
     a45_54 = ...6, a55_64 = ...7, a65over = ...8
-  ) %>%
+  ) |>
   filter(!is.na(total))
 
 # 1975-01 ~ 2025-07までの日付作成
@@ -62,7 +62,7 @@ graph_unemployment_recent <- unemployment %>%
       a45_54 = "45〜54歳",
       total  = "年齢計"
     )
-  )+
+  ) +
   scale_x_date(
     breaks = seq.Date(
       from = as.Date("2019-01-01"),
@@ -77,7 +77,7 @@ plot(graph_unemployment_recent)
 
 ### 長期のグラフ
 
-graph_unemployment_longtime <- unemployment %>%
+graph_unemployment_longtime <- unemployment |>
   ggplot(aes(x = month, y = value, color = name)) +
   geom_line() +
   scale_color_manual(
