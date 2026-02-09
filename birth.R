@@ -56,7 +56,7 @@ birth <- vital |>
     ),
     nudge_y = 50000,
     color = "red",
-    size = 4,
+    size = 3,
     data = subset(vital, year %in% c(1949, 1966, 1989, 2005, 2023))
   ) +
   labs(
@@ -90,7 +90,7 @@ tfr <- vital |>
     ),
     nudge_y = -0.4,
     color = "red",
-    size = 4,
+    size = 3,
     data = subset(vital, year %in% c(1947, 1966, 1989, 2005, 2023))
   ) +
   labs(
