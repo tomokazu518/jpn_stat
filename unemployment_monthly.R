@@ -31,33 +31,39 @@ labor_unemployment <-
 # 1975-01 ~ 2025-07までの日付作成
 
 for (i in 1975:2025) {
-  if(i == 2025){tmp <- paste(i, "-", seq(1:7), "-01", sep = "")} 
-  else{tmp <- paste(i, "-", seq(1:12), "-01", sep = "")}
+
+  if (i == 2025){
+    tmp <- paste(i, "-", seq(1:7), "-01", sep = "")
+  } else{
+    tmp <- paste(i, "-", seq(1:12), "-01", sep = "")
+  }
+
   if (i == 1975) {
     month <- tmp
   } else {
     month <- c(month, tmp)
   }
+
 }
 
 month <- month[seq_len(nrow(labor_unemployment))]
 
 # 日付と失業率の結合，必要なデータを残してlong形式に
 
-unemployment <- cbind(month, labor_unemployment) %>%
-  mutate(month = as.Date(month)) %>%
-  select(month, total, a15_24, a25_34, a35_44, a45_54) %>%
+unemployment <- cbind(month, labor_unemployment) |>
+  mutate(month = as.Date(month)) |>
+  select(month, total, a15_24, a25_34, a35_44, a45_54) |>
   pivot_longer(-month)
 
-## ---- graph ----
+## ---- plot_recent ----
 
 ### 直近のグラフ
 
-graph_unemployment_recent <- unemployment %>%
-  filter(month >= "2019-01-01") %>%
+graph_unemployment_recent <- unemployment |>
+  filter(month >= "2019-01-01") |>
   ggplot(aes(x = month, y = value, color = name)) +
   geom_line() +
-  geom_point() +
+  geom_point(size = 1) +
   scale_color_manual(
     values = c(brewer.pal(4, "Pastel1"), "black"),
     name = "年齢階級",
@@ -82,7 +88,7 @@ graph_unemployment_recent <- unemployment %>%
 plot(graph_unemployment_recent)
 
 
-## ---- long-term ----
+## ---- plot_longtime ----
 
 ### 長期のグラフ
 
