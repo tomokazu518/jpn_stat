@@ -11,7 +11,7 @@ library(RColorBrewer)
 # appID = "入手したappIDをここに設定（行頭の#を外す）"
 
 # グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
+theme_set(theme_classic(base_family = "IPAexGothic", base_size = 14))
 
 ## ---- data ----
 
@@ -183,8 +183,6 @@ for (i in seq_along(start)) {
       breaks = seq(start[i], end[i], by = 8),  # 2年おき（8四半期おき）
       labels = xlabels
     ) +
-    scale_y_continuous(name = "") +
-    ggtitle("四半期GDP速報")
-
+    scale_y_continuous(name = "")
   plot(g)
 }
