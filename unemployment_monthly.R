@@ -1,9 +1,13 @@
+## ---- setup ----
+
 library(tidyverse)
 library(readxl)
 library(RColorBrewer)
 
 # グラフのテーマ
 theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
+
+## ---- data ----
 
 # 失業率（月次） 季節調整値
 # 労働力調査　基本集計　全都道府県　長期時系列データ　季節調整値　表番号1-a-9
@@ -44,6 +48,8 @@ unemployment <- cbind(month, labor_unemployment) %>%
   mutate(month = as.Date(month)) %>%
   select(month, total, a15_24, a25_34, a35_44, a45_54) %>%
   pivot_longer(-month)
+
+## ---- graph ----
 
 ### 直近のグラフ
 
