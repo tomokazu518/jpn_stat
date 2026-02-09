@@ -143,7 +143,7 @@ for (i in seq_along(start)) {
     geom_bar(
       data = filter(graphdata, name != "growth"),
       stat = "identity",
-      color = "black", 
+      color = "black",
       width = 0.7, # 積み上げ棒グラフ
       aes(
         x = number,
@@ -172,7 +172,7 @@ for (i in seq_along(start)) {
         y = value,
         color = name
       ),
-      size = 1
+      size = 0.5
     ) +
     scale_color_manual( # 色と凡例の設定
       name = "",
