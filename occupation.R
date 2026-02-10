@@ -1,9 +1,13 @@
+## ---- setup ----
+
 library(tidyverse)
 library(patchwork)
 library(ggrepel)
 library(readxl)
 
 theme_set(theme_classic(base_family = "IPAexGothic", base_size = 12))
+
+## ---- data ----
 
 # 労働力調査　長期時系列【表６】年平均結果 6-2 職業別就業者数
 download.file(
@@ -27,7 +31,7 @@ data <- read_excel(
 
 colnames(data) <- header
 
-long_data_1 <- data %>%
+long_data_1 <- data |>
   select(- `総数`) |>
   pivot_longer(cols = c(- year), names_to = "occupation")
 
@@ -55,10 +59,11 @@ data <- read_excel(
 
 colnames(data) <- header
 
-long_data_2 <- data %>%
+long_data_2 <- data |>
   select(- `総数`) |>
   pivot_longer(cols = c(- year), names_to = "occupation")
 
+## ---- plot ----
 
 # 色を指定
 fixed_cols <- c(
@@ -79,7 +84,7 @@ for (k in names(fixed_cols)) {
   if (k %in% names(base_pal)) base_pal[k] <- fixed_cols[k]
 }
 
-g1 <- long_data_1 %>%
+g1 <- long_data_1 |>
   ggplot(aes(x = year, y = value, color = occupation, group = occupation)) +
   geom_line() +
   geom_point(size = 1) +
@@ -93,7 +98,7 @@ g1 <- long_data_1 %>%
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
   theme(legend.position = "none")
 
-g2 <- long_data_2 %>%
+g2 <- long_data_2 |>
   ggplot(aes(x = year, y = value, color = occupation, group = occupation)) +
   geom_line() +
   geom_point(size = 1) +

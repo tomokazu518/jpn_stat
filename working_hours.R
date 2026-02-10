@@ -1,10 +1,13 @@
+## ---- setup ----
+
 library(tidyverse)
 
 # グラフのテーマ
 theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
 
+## ---- data ----
 # ファイルのダウンロード先ディレクトリ作成
-dir.create("files", showWarnings = F)
+dir.create("files", showWarnings = FALSE)
 
 # 毎月勤労統計調査　　長期時系列表	実数・指数累積データ
 # 表番号1 実数・指数累積データ　実数
@@ -27,7 +30,7 @@ maikin <- read.csv(
   ) |>
   mutate(`総実労働時間` = `総実労働時間` * 12)
 
-
+## ---- plot ----
 w_status <- c("就業形態計", "一般労働者", "パートタイム労働者")
 
 graph_hours <- maikin |>
@@ -40,7 +43,7 @@ graph_hours <- maikin |>
     )
   ) +
   geom_line() +
-  geom_point() +
+  geom_point(size = 1) +
   scale_color_hue(
     name = "就業形態",
     labels = w_status

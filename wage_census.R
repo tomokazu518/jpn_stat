@@ -1,3 +1,5 @@
+## ---- setup ----
+
 library(tidyverse)
 library(estatapi)
 
@@ -8,6 +10,8 @@ library(estatapi)
 
 # グラフのテーマ
 theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
+
+## ---- data ----
 
 standard <- estat_getStatsData(
   appId = appID,
@@ -54,6 +58,7 @@ standard <- estat_getStatsData(
     wage = (所定内給与額 * 12 + 年間賞与その他特別給与額) / 10
   )
 
+## ---- plot_education ----
 # 学歴別賃金プロファイル
 graph_education <- standard |>
   filter(
@@ -79,6 +84,7 @@ graph_education <- standard |>
 
 plot(graph_education)
 
+## ---- plot_firmsize ----
 # 大卒の企業規模別賃金プロファイル
 graph_firmsize <- standard |>
   filter(

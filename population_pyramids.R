@@ -1,3 +1,4 @@
+## ---- setup ----
 library(tidyverse)
 library(patchwork)
 library(readxl)
@@ -5,8 +6,10 @@ library(readxl)
 # グラフのテーマ
 theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
 
+## ---- data ----
+
 # ファイルのダウンロード先ディレクトリ作成
-dir.create("files", showWarnings = F)
+dir.create("files", showWarnings = FALSE)
 
 # 国立社会保障・人口問題研究所のホームページからデータをダウンロード
 download.file(
@@ -51,11 +54,12 @@ female <- cbind(age, female) |>
 
 population <- rbind(male, female)
 
+## ---- plot ----
+# 人口ピラミッドの描画
+
 # 人口ピラミッドを作成する年を指定
 years <- c(1965, 1980, 1995, 2010, 2040, 2070)
 
-
-# 人口ピラミッドの描画
 for (i in years) {
   fig <- population |>
     filter(year == i) |>

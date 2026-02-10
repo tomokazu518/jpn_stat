@@ -1,3 +1,5 @@
+## ---- setup ----
+
 library(tidyverse)
 library(estatapi)
 library(readxl)
@@ -10,12 +12,13 @@ library(patchwork)
 # appID = "入手したappIDをここに設定（行頭の#を外す）"
 
 # グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
+theme_set(theme_classic(base_family = "IPAexGothic", base_size = 12))
+
+## ---- data ----
+# e-statからファイルのダウンロード
 
 # ファイルのダウンロード先ディレクトリ作成
-dir.create("files", showWarnings = FALSE)
-
-# e-statからファイルのダウンロード
+dir.create("files", showWarnings = F)
 
 # 人口推計 長期時系列データ 我が国の推計人口（大正9年～平成12年）
 download.file(
@@ -41,15 +44,15 @@ pop_1 <- read_excel(
 
 pop_2 <- read_excel(
   "files/pop_estimate2000-2020.xlsx",
-  sheet = 1, 
-  range = "D11:D25", 
+  sheet = 1,
+  range = "D11:D25",
   col_names = FALSE
 )
 
 pop_3 <- read_excel(
-  "files/pop_estimate2000-2020.xlsx", 
-  sheet = 2, 
-  range = "C11:C15", 
+  "files/pop_estimate2000-2020.xlsx",
+  sheet = 2,
+  range = "C11:C15",
   col_names = FALSE
 )
 
@@ -83,7 +86,7 @@ labor_force <- estat_getStatsData(
   mutate(year = as.numeric(time_code) / 1000000) |>
   select(year, `性別`, `就業状態`, `年齢階級`, `value`)
 
-# 総人口と労働力人口の推移
+# 総人口と労働力人口の結合
 
 population_laborforce <- rbind(
   labor_force |>
@@ -106,28 +109,30 @@ population_laborforce <- rbind(
   population
 )
 
-# グラフ作成
+## ---- plot_population_laborforce ----
+# 総人口と労働力人口のグラフ作成
+
 graph_population_laborforce <- population_laborforce |>
   filter(year >= 1968) |>
   ggplot(
     aes(
-      x = year, 
-      y = value, 
-      color = category, 
+      x = year,
+      y = value,
+      color = category,
       shape = category
     )
   ) +
   geom_line() +
-  geom_point(size = 2) +
+  geom_point(size = 1) +
   scale_color_discrete(name = "") +
   scale_shape_discrete(name = "") +
   labs(x = "年", y = "人口(万人)")
 
 plot(graph_population_laborforce)
 
-# 年齢階級別労働力率
+## ---- plot_laborforce_age ----
+# 年齢階級別労働力率のデータ整理
 
-# データ整理
 lf_by_age <- labor_force |>
   filter(year >= 1968) |>
   pivot_wider(names_from = `年齢階級`) |>
@@ -144,7 +149,8 @@ lf_by_age <- labor_force |>
     unemployment_rate = `完全失業者` / `労働力人口`
   )
 
-# グラフ作成
+# 年齢階級別労働力率のグラフ作成
+
 age_groups <- c("15～24歳", "25～54歳", "55～59歳", "60～64歳", "65歳以上")
 
 graph_male_age <- lf_by_age |>
@@ -158,7 +164,7 @@ graph_male_age <- lf_by_age |>
     )
   ) +
   geom_line() +
-  geom_point(size = 1) +
+  geom_point(size = 0.5) +
   ylim(0, 1) +
   labs(
     title = "男",
@@ -178,19 +184,23 @@ graph_female_age <- lf_by_age |>
     )
   ) +
   geom_line() +
-  geom_point(size = 1) +
+  geom_point(size = 0.5) +
   ylim(0, 1) +
   labs(
     title = "女",
     x = "年",
     y = ""
+  ) +
+  theme(
+    legend.title = element_text(size = 8),
+    legend.text = element_text(size = 7)
   )
 
 plot(graph_male_age + graph_female_age)
 
-# M字カーブ
+## ---- plot_mcurve ----
+# M字カーブのデータ整理
 
-# データ整理
 years <- c(1970, 1990, 2010, 2020)
 
 age_groups <- c(
@@ -209,12 +219,14 @@ age_groups <- c(
 m_curve <- lf_by_age |>
   filter(
     (`性別` == "女" & year %in% years & `年齢階級` %in% age_groups) | # 女性
-    (`性別` == "男" & year %in% c(years[1], years[length(years)]) &
-    `年齢階級` %in% age_groups) # 男性は最初と最後の年のみ
+      (`性別` == "男" & year %in% c(years[1], years[length(years)]) &
+          `年齢階級` %in% age_groups
+      ) # 男性は最初と最後の年のみ
   ) |>
   mutate(`性別・年` = paste(`性別`, "(", year, ")", sep = ""))
 
-# グラフ作成
+# M字カーブのグラフ作成
+
 graph_m_curve <- m_curve |>
   ggplot(
     aes(
@@ -222,7 +234,7 @@ graph_m_curve <- m_curve |>
       y = participation_rate,
       color = `性別・年`,
       linetype = `性別・年`,
-      shape = `性別・年`, 
+      shape = `性別・年`,
       group = `性別・年`
     )
   ) +
@@ -244,6 +256,7 @@ graph_m_curve <- m_curve |>
       "dotted"
     )
   ) +
-  labs(y = "労働力率")
+  labs(y = "労働力率") +
+  theme(legend.position = "none")
 
 plot(graph_m_curve)

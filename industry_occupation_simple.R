@@ -1,3 +1,5 @@
+## ---- setup ----
+
 library(tidyverse)
 library(estatapi)
 library(RColorBrewer)
@@ -9,8 +11,10 @@ library(RColorBrewer)
 
 # グラフのテーマ
 theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
+clr_industry <- c(brewer.pal(11, "Paired"), brewer.pal(8, "YlOrBr"), "#FFFFFF")
+clr_occupation <- c(brewer.pal(7, "Accent"), brewer.pal(4, "YlOrRd"), "#FFFFFF")
 
-### 産業構造
+## ---- data_industry ----
 
 # 国勢調査・時系列データ・人口の労働力状態，就業者の産業・職業　表番号4　
 
@@ -50,11 +54,8 @@ industry_old <-
   ) |>
   select(year, industry, value)
 
-#### グラフ
-
-clr <- c(brewer.pal(11, "Paired"), brewer.pal(8, "YlOrBr"), "#FFFFFF")
-
-## 1995年以降（新産業分類）
+## ---- plot_industry_latest ----
+# 1995年以降 (新産業分類)のグラフ作成
 
 graph_industry_latest <- industry_latest |>
   ggplot(
@@ -70,16 +71,21 @@ graph_industry_latest <- industry_latest |>
   ) +
   scale_fill_manual(
     name = "産業",
-    values = clr
+    values = clr_industry
   ) +
   labs(
     x = "年",
     y = ""
+  ) +
+  theme(
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 9)
   )
 
 plot(graph_industry_latest)
 
-## 2000年以前（旧産業分類）
+## ---- plot_industry_old ----
+# 2000年以前 (旧産業分類)のグラフ作成
 
 graph_industry_old <- industry_old |>
   ggplot(
@@ -95,28 +101,31 @@ graph_industry_old <- industry_old |>
   ) +
   scale_fill_manual(
     name = "産業",
-    values = clr
+    values = clr_industry
   ) +
   labs(
     x = "年",
     y = ""
+  ) +
+  theme(
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 9)
   )
 
 plot(graph_industry_old)
 
-### 職業構造
+## ---- data_occupation ----
 
 # 国勢調査・時系列データ・人口の労働力状態，就業者の産業・職業　表番号7
-
 # 職業（大分類），男女別15歳以上就業者数－全国（平成7年～平成27年）
 occupation_latest <-
   estat_getStatsData(
     appId = appID,
     statsDataId = "0003410408",
-    cdTab = "2020_45",      # 表章項目 == "人口構成比 [職業別]"
-    cdCat01From = 110, # 職業分類
-    cdCat01To   = 220, # 
-    cdCat02     = 100  # 男女_時系列 == "総数")
+    cdTab = "2020_45",    # 表章項目 == "人口構成比 [職業別]"
+    cdCat01From = 110,    # 職業分類
+    cdCat01To   = 220,    #
+    cdCat02     = 100     # 男女_時系列 == "総数")
   ) |>
   filter(substring(time_code, 9, 10) == "00") |>
   mutate(
@@ -129,11 +138,11 @@ occupation_latest <-
 # －全国（昭和25年～平成17年）※平成21年12月改訂前
 occupation_old <-
   estat_getStatsData(
-    appId = appID, 
+    appId = appID,
     statsDataId = "0003410409",
     cdTab = "2020_45",      # 表章項目 == "割合"
     cdCat01From = 110,      # 職業分類
-    cdCat01To   = 200,      # 
+    cdCat01To   = 200,      #
     cdCat02     = 100       # 男女_時系列 == "総数")
   ) |>
   mutate(
@@ -142,11 +151,8 @@ occupation_old <-
   ) |>
   select(year, occupation, value)
 
-#### グラフ
-
-clr <- c(brewer.pal(7, "Accent"), brewer.pal(4, "YlOrRd"), "#FFFFFF")
-
-## 1995年以降（新職業分類）
+## ---- plot_occupation_latest ----
+# 1995年以降 (新職業分類)のグラフ作成
 
 graph_occupation_latest <- occupation_latest |>
   ggplot(
@@ -162,16 +168,21 @@ graph_occupation_latest <- occupation_latest |>
   ) +
   scale_fill_manual(
     name = "職業",
-    values = clr
+    values = clr_occupation
   ) +
   labs(
     x = "年",
     y = ""
+  ) +
+  theme(
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 9)
   )
 
 plot(graph_occupation_latest)
 
-## 1990年以前(旧職業分類)
+## ---- plot_occupation_old ----
+# 2000年以前 (旧職業分類)のグラフ作成
 
 graph_occupation_old <- occupation_old |>
   ggplot(
@@ -187,11 +198,15 @@ graph_occupation_old <- occupation_old |>
   ) +
   scale_fill_manual(
     name = "職業",
-    values = clr
+    values = clr_occupation
   ) +
   labs(
     x = "年",
     y = ""
+  ) +
+  theme(
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 9)
   )
 
 plot(graph_occupation_old)

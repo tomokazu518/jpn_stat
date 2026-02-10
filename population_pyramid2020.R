@@ -1,3 +1,5 @@
+## ---- setup ----
+
 library(tidyverse)
 library(estatapi)
 
@@ -8,6 +10,8 @@ library(estatapi)
 
 # グラフのテーマ
 theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
+
+## ---- data ----
 
 # e-statからデータ取得 statID 0003445133
 # 	国勢調査 令和２年国勢調査 人口等基本集計
@@ -40,6 +44,7 @@ pop2020 <- estat_census2020 |>
   ) |>
   select(age, `男女`, value)
 
+## ---- plot ----
 # 人口ピラミッドの描画
 graph_pop2020 <- pop2020 |>
   ggplot(
