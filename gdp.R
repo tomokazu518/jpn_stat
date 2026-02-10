@@ -98,18 +98,6 @@ growth <- select(
 ) |>
   pivot_longer(! c(time_code, number, year))
 
-# 配色
-palette <- c(
-  "#D9D9D9",
-  "#F6D6A8",
-  "#CFE7F6",
-  "#BFE9D8",
-  "#FAF0B3",
-  "#C7D9F6",
-  "#F6C3B1",
-  "#E9C7E9"
-)
-
 ## ---- plot_gdp ----
 
 # グラフの凡例
@@ -120,6 +108,18 @@ legends <- c(
   contD_government = "政府支出",
   contE_private_investment = "民間投資",
   contF_consumption = "民間消費"
+)
+
+# 配色
+palette <- c(
+  "#D9D9D9",
+  "#F6D6A8",
+  "#CFE7F6",
+  "#BFE9D8",
+  "#FAF0B3",
+  "#C7D9F6",
+  "#F6C3B1",
+  "#E9C7E9"
 )
 
 # グラフは4分割 (期間の始めと終わりを通し番号で指定)
