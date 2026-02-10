@@ -122,10 +122,15 @@ legends <- c(
   contF_consumption = "民間消費"
 )
 
-# グラフを描く期間の指定
+# グラフは4分割 (期間の始めと終わりを通し番号で指定)
+# 1995年の第一四半期 (number=5)から始める
+# startは第一四半期(4の倍数+1)になるように、区間幅を4の倍数に丸める
 length <- nrow(qgdp) # データの長さ
-start <- c(5, 53, 101) # 期間の始めと終わりを通し番号で指定
-end <- c(52, 100, length) # startは第一四半期(4の倍数+1)になるように
+total_quarters <- length - 4  # number=5 から length までの四半期数
+chunk <- ceiling((total_quarters / 4) / 4) * 4 # 1枚のグラフに表示する四半期数 (必ず4の倍数に)
+start <- 5 + (0:3) * chunk
+end <- pmin(start + chunk - 1, length)
+end[4] <- length
 
 # グラフの作成
 for (i in seq_along(start)) {
