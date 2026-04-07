@@ -17,9 +17,12 @@ download.file(
   method = "curl"
 )
 
+# E71:L 列は固定（5〜12 列目）、71 行目から下は行数が増えても読み込む
 labor_unemployment <-
   read_excel("files/unemployment.xlsx",
-    sheet = "季節調整値", range = "E71:L677", col_names = F
+    sheet = "季節調整値",
+    range = cell_limits(c(71, 5), c(NA, 12)),
+    col_names = F
   )
 labor_unemployment <-
   rename(labor_unemployment,
@@ -28,31 +31,15 @@ labor_unemployment <-
   ) |>
   filter(!is.na(total))
 
-# 1975-01 ~ 2025-07までの日付作成
-
-for (i in 1975:2025) {
-
-  if (i == 2025){
-    tmp <- paste(i, "-", seq(1:7), "-01", sep = "")
-  } else{
-    tmp <- paste(i, "-", seq(1:12), "-01", sep = "")
-  }
-
-  if (i == 1975) {
-    month <- tmp
-  } else {
-    month <- c(month, tmp)
-  }
-
-}
-
-month <- month[seq_len(nrow(labor_unemployment))]
+# 1975-01 起点の月次（行数は labor_unemployment に合わせる）
+month <- seq(as.Date("1975-01-01"), by = "month", length.out = nrow(labor_unemployment))
 
 # 日付と失業率の結合，必要なデータを残してlong形式に
 
 unemployment <- cbind(month, labor_unemployment) |>
   mutate(month = as.Date(month)) |>
   select(month, total, a15_24, a25_34, a35_44, a45_54) |>
+  mutate(across(-month, as.numeric)) |>
   pivot_longer(-month)
 
 ## ---- plot_recent ----
@@ -76,11 +63,13 @@ graph_unemployment_recent <- unemployment |>
     )
   ) +
   scale_x_date(
-    breaks = seq.Date(
-      from = as.Date("2019-01-01"),
-      to = as.Date("2025-01-01"),
-      by = "12 months"
-    ),
+    breaks = \(lims) {
+      seq.Date(
+        as.Date("2019-01-01"),
+        floor_date(lims[2], "year"),
+        by = "12 months"
+      )
+    },
     date_labels = "%Y"
   ) +
   labs(x = "", y = "失業率")
