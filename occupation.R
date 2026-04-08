@@ -33,7 +33,6 @@ long_data_1 <- data |>
   select(- `総数`) |>
   pivot_longer(cols = c(- year), names_to = "occupation")
 
-
 # 労働力調査　長期時系列【表６】年平均結果 6-1 職業別就業者数（2009年12月改定分類）
 download.file(
   "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000012925012&fileKind=0",
@@ -91,7 +90,8 @@ g1 <- long_data_1 |>
   geom_label_repel(
     data = filter(long_data_1, year == 1993),
     aes(label = occupation),
-    size = 3, show.legend = FALSE
+    size = 3, show.legend = FALSE,
+    family = "IPAexGothic"
   ) +
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
   theme_classic(base_family = "IPAexGothic", base_size = 16) +
@@ -106,7 +106,8 @@ g2 <- long_data_2 |>
   geom_label_repel(
     data = filter(long_data_2, year == 2016),
     aes(label = occupation),
-    size = 3, show.legend = FALSE
+    size = 3, show.legend = FALSE,
+    family = "IPAexGothic"
   ) +
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
   theme_classic(base_family = "IPAexGothic", base_size = 16) +
