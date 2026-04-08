@@ -169,7 +169,7 @@ graph_male_age <- lf_by_age |>
     x = "年",
     y = "労働力率"
   ) +
-  theme_classic(base_family = "IPAexGothic", base_size = 16) +
+  theme_classic(base_family = "IPAexGothic", base_size = 12) +
   theme(legend.position = "none")
 
 graph_female_age <- lf_by_age |>
@@ -190,7 +190,7 @@ graph_female_age <- lf_by_age |>
     x = "年",
     y = ""
   ) +
-  theme_classic(base_family = "IPAexGothic", base_size = 16) +
+  theme_classic(base_family = "IPAexGothic", base_size = 12) +
   theme(
     legend.title = element_text(size = 8),
     legend.text = element_text(size = 7)
