@@ -11,9 +11,6 @@ library(patchwork)
 #   https://www.e-stat.go.jp/api/
 # appID = "入手したappIDをここに設定（行頭の#を外す）"
 
-# グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 12))
-
 ## ---- data ----
 # e-statからファイルのダウンロード
 
@@ -126,7 +123,8 @@ graph_population_laborforce <- population_laborforce |>
   geom_point(size = 1) +
   scale_color_discrete(name = "") +
   scale_shape_discrete(name = "") +
-  labs(x = "年", y = "人口(万人)")
+  labs(x = "年", y = "人口(万人)") +
+  theme_classic(base_family = "IPAexGothic", base_size = 16)
 
 plot(graph_population_laborforce)
 
@@ -171,6 +169,7 @@ graph_male_age <- lf_by_age |>
     x = "年",
     y = "労働力率"
   ) +
+  theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(legend.position = "none")
 
 graph_female_age <- lf_by_age |>
@@ -191,6 +190,7 @@ graph_female_age <- lf_by_age |>
     x = "年",
     y = ""
   ) +
+  theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(
     legend.title = element_text(size = 8),
     legend.text = element_text(size = 7)
@@ -257,6 +257,7 @@ graph_m_curve <- m_curve |>
     )
   ) +
   labs(y = "労働力率") +
+  theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(legend.position = "none")
 
 plot(graph_m_curve)

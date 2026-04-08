@@ -8,9 +8,6 @@ library(estatapi)
 #   https://www.e-stat.go.jp/api/
 # appID = "入手したappIDをここに設定（行頭の#を外す）"
 
-# グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
-
 ## ---- data ----
 
 # e-statからデータ取得 statID 0003445133
@@ -72,6 +69,6 @@ graph_pop2020 <- pop2020 |>
     x = "年齢"
   ) +
   coord_flip() + # グラフの回転 (縦軸と横軸の入替)
-  theme_classic()
+  theme_classic(base_family = "IPAexGothic", base_size = 16)
 
 plot(graph_pop2020)

@@ -10,9 +10,6 @@ library(RColorBrewer)
 #   https://www.e-stat.go.jp/api/
 # appID = "入手したappIDをここに設定（行頭の#を外す）"
 
-# グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 14))
-
 ## ---- data ----
 
 # データ取得
@@ -190,6 +187,7 @@ for (i in seq_along(start)) {
       labels = xlabels
     ) +
     scale_y_continuous(name = "") +
+    theme_classic(base_family = "IPAexGothic", base_size = 16) +
     theme(
       legend.title = element_text(size = 10),
       legend.text = element_text(size = 9)

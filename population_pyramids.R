@@ -3,9 +3,6 @@ library(tidyverse)
 library(patchwork)
 library(readxl)
 
-# グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
-
 ## ---- data ----
 
 # ファイルのダウンロード先ディレクトリ作成
@@ -77,7 +74,7 @@ for (i in years) {
     ) +
     labs(title = i, y = "", x = "") +
     coord_flip() +
-    theme_classic() +
+    theme_classic(base_family = "IPAexGothic", base_size = 16) +
     theme(legend.position = "none")
 
   if (i == years[1]) {

@@ -1,9 +1,6 @@
 library(tidyverse)
 library(sf)
 
-# グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
-
 # 作成したgeojsonファイルの読込み
 # 以下のように奥村先生のホームページからダウンロードしても良い
 # japan_prefecture = read_sf("https://okumuralab.org/~okumura/stat/data/japan.geojson")
@@ -27,6 +24,7 @@ covid <- cbind(
 graph_covid <- covid |>
   ggplot(aes(fill = value)) +
   geom_sf() +
-  scale_fill_continuous("死亡者数(累積)", low = "white", high = "red")
+  scale_fill_continuous("死亡者数(累積)", low = "white", high = "red") +
+  theme_classic(base_family = "IPAexGothic", base_size = 16)
 
 plot(graph_covid)

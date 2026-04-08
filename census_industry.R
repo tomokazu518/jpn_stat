@@ -8,9 +8,6 @@ library(stringi)
 #   https://www.e-stat.go.jp/api/
 # appID = "入手したappIDをここに設定（行頭の#を外す）"
 
-# グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
-
 # 産業（大分類），男女別15歳以上就業者数
 # －全国（平成7年～令和2年）※平成19年11月改訂後
 industry_latest <-
@@ -138,7 +135,7 @@ graph_industry <- industry %>%
   geom_bar(stat = "identity", color = "black") +
   scale_fill_manual(name = "産業", values = clr) +
   labs(x = "年", y = "") +
-  theme_classic() +
+  theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(text = element_text(size = 11))
 
 plot(graph_industry)

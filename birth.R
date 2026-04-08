@@ -9,9 +9,6 @@ library(patchwork)
 #   https://www.e-stat.go.jp/api/
 # appID = "入手したappIDをここに設定（行頭の#を外す）"
 
-# グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
-
 ## ---- data ----
 
 # e-Statからデータ取得
@@ -67,7 +64,7 @@ birth <- vital |>
     labels = scales::label_comma(),
     limits = c(0, 3500000)
   ) +
-  theme_classic()
+  theme_classic(base_family = "IPAexGothic", base_size = 16)
 
 # 合計特殊出生率のグラフ
 
@@ -97,7 +94,7 @@ tfr <- vital |>
     x = "年",
     y = "合計特殊出生率"
   ) +
-  theme_classic()
+  theme_classic(base_family = "IPAexGothic", base_size = 16)
 
 # patchworkパッケージを使ったプロット
 

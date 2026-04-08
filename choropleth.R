@@ -7,10 +7,6 @@ dir.create("files", showWarnings = FALSE)
 library(tidyverse)
 library(sf)
 
-# グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
-
-
 # 国土交通省の国土数値情報ダウンロード＞行政区域データ
 # https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-v3_0.html
 # 　から全国の行政区域データ(shapeファイルを入手する)
@@ -53,6 +49,7 @@ st_write(japan_prefectures, "japan_prefectures.geojson")
 # ggplot2を用いてプロット
 graph_japan_prefectures <- japan_prefectures |>
   ggplot() +
-  geom_sf()
+  geom_sf() +
+  theme_classic(base_family = "IPAexGothic", base_size = 16)
 
 plot(graph_japan_prefectures)

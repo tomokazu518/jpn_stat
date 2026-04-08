@@ -2,9 +2,6 @@
 
 library(tidyverse)
 
-# グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
-
 ## ---- data ----
 # ファイルのダウンロード先ディレクトリ作成
 dir.create("files", showWarnings = FALSE)
@@ -47,6 +44,7 @@ graph_hours <- maikin |>
   scale_color_hue(
     name = "就業形態",
     labels = w_status
-  )
+  ) +
+  theme_classic(base_family = "IPAexGothic", base_size = 16)
 
 plot(graph_hours)

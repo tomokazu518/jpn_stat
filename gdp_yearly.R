@@ -7,9 +7,6 @@ library(patchwork)
 #   https://www.e-stat.go.jp/api/
 # appID = "入手したappIDをここに設定（行頭の#を外す）"
 
-# グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
-
 # 名目・実質・GDPデフレータ
 
 nominal_gdp <- estat_getStatsData(
@@ -49,17 +46,17 @@ g1 <- gdp |>
   geom_line() +
   labs(y = "GDP(10億円)") +
   scale_color_hue(name = "") +
-  theme_bw(base_family = "IPAexGothic") +
+  theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(legend.position = "bottom")
 
 g2 <- gdp |>
-  filter(name == "GDPデフレータ") %>%
+  filter(name == "GDPデフレータ") |>
   ggplot(aes(x = year, y = value, color = name)) +
   geom_point() +
   geom_line() +
   labs(y = "GDPデフレータ") +
   scale_color_hue(name = "") +
-  theme_bw(base_family = "IPAexGothic") +
+  theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(legend.position = "bottom")
 
 plot(g1 + g2)

@@ -5,8 +5,6 @@ library(patchwork)
 library(ggrepel)
 library(readxl)
 
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 12))
-
 ## ---- data ----
 
 # 労働力調査　長期時系列【表６】年平均結果 6-2 職業別就業者数
@@ -96,6 +94,7 @@ g1 <- long_data_1 |>
     size = 3, show.legend = FALSE
   ) +
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
+  theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(legend.position = "none")
 
 g2 <- long_data_2 |>
@@ -110,6 +109,7 @@ g2 <- long_data_2 |>
     size = 3, show.legend = FALSE
   ) +
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
+  theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(legend.position = "none")
 
 plot(g1 + g2)

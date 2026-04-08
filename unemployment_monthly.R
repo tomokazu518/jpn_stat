@@ -4,9 +4,6 @@ library(tidyverse)
 library(readxl)
 library(RColorBrewer)
 
-# グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
-
 ## ---- data ----
 
 # 失業率（月次） 季節調整値
@@ -72,7 +69,8 @@ graph_unemployment_recent <- unemployment |>
     },
     date_labels = "%Y"
   ) +
-  labs(x = "", y = "失業率")
+  labs(x = "", y = "失業率") +
+  theme_classic(base_family = "IPAexGothic", base_size = 16)
 
 plot(graph_unemployment_recent)
 
@@ -95,6 +93,7 @@ graph_unemployment_longtime <- unemployment |>
       total  = "年齢計"
     )
   ) +
-  labs(x = "", y = "失業率")
+  labs(x = "", y = "失業率") +
+  theme_classic(base_family = "IPAexGothic", base_size = 16)
 
 plot(graph_unemployment_longtime)

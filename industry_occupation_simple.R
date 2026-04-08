@@ -9,8 +9,6 @@ library(RColorBrewer)
 #   https://www.e-stat.go.jp/api/
 # appID = "入手したappIDをここに設定（行頭の#を外す）"
 
-# グラフのテーマ
-theme_set(theme_classic(base_family = "IPAexGothic", base_size = 16))
 clr_industry <- c(brewer.pal(11, "Paired"), brewer.pal(8, "YlOrBr"), "#FFFFFF")
 clr_occupation <- c(brewer.pal(7, "Accent"), brewer.pal(4, "YlOrRd"), "#FFFFFF")
 
@@ -77,6 +75,7 @@ graph_industry_latest <- industry_latest |>
     x = "年",
     y = ""
   ) +
+  theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(
     legend.title = element_text(size = 10),
     legend.text = element_text(size = 9)
@@ -107,6 +106,7 @@ graph_industry_old <- industry_old |>
     x = "年",
     y = ""
   ) +
+  theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(
     legend.title = element_text(size = 10),
     legend.text = element_text(size = 9)
@@ -174,6 +174,7 @@ graph_occupation_latest <- occupation_latest |>
     x = "年",
     y = ""
   ) +
+  theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(
     legend.title = element_text(size = 10),
     legend.text = element_text(size = 9)
@@ -204,6 +205,7 @@ graph_occupation_old <- occupation_old |>
     x = "年",
     y = ""
   ) +
+  theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(
     legend.title = element_text(size = 10),
     legend.text = element_text(size = 9)
