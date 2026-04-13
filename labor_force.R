@@ -258,6 +258,6 @@ graph_m_curve <- m_curve |>
   ) +
   labs(y = "労働力率") +
   theme_classic(base_family = "IPAexGothic", base_size = 16) +
-  theme(legend.position = "none")
+  theme(legend.position = "right")
 
 plot(graph_m_curve)
