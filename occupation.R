@@ -30,8 +30,8 @@ data <- read_excel(
 colnames(data) <- header
 
 long_data_1 <- data |>
-  select(- `総数`) |>
-  pivot_longer(cols = c(- year), names_to = "occupation")
+  select(-`総数`) |>
+  pivot_longer(cols = c(-year), names_to = "occupation")
 
 # 労働力調査　長期時系列【表６】年平均結果 6-1 職業別就業者数（2009年12月改定分類）
 download.file(
@@ -57,14 +57,14 @@ data <- read_excel(
 colnames(data) <- header
 
 long_data_2 <- data |>
-  select(- `総数`) |>
-  pivot_longer(cols = c(- year), names_to = "occupation")
+  select(-`総数`) |>
+  pivot_longer(cols = c(-year), names_to = "occupation")
 
 ## ---- plot ----
 
 # 色を指定
 fixed_cols <- c(
-  "保安職業従事者"   = "#2f00ff",
+  "保安職業従事者" = "#2f00ff",
   "サービス職業従事者" = "#2f00ff",
   "保安職業，サービス職業従事者" = "#2f00ff",
   "農林漁業従事者" = "#004719",
@@ -90,7 +90,8 @@ g1 <- long_data_1 |>
   geom_label_repel(
     data = filter(long_data_1, year == 1993),
     aes(label = occupation),
-    size = 3, show.legend = FALSE,
+    size = 3,
+    show.legend = FALSE,
     family = "IPAexGothic"
   ) +
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
@@ -101,12 +102,13 @@ g2 <- long_data_2 |>
   ggplot(aes(x = year, y = value, color = occupation, group = occupation)) +
   geom_line() +
   geom_point(size = 1) +
-  ylim(0, 2000) +
+  scale_y_continuous(limits = c(0, 2000), breaks = NULL) +
   labs(x = "", y = "") +
   geom_label_repel(
     data = filter(long_data_2, year == 2016),
     aes(label = occupation),
-    size = 3, show.legend = FALSE,
+    size = 3,
+    show.legend = FALSE,
     family = "IPAexGothic"
   ) +
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
