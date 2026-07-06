@@ -1,58 +1,81 @@
 ## ---- setup ----
 library(tidyverse)
-library(patchwork)
 library(readxl)
+library(patchwork)
 
 ## ---- data ----
 
-# ファイルのダウンロード先ディレクトリ作成
 dir.create("files", showWarnings = FALSE)
 
-# 国立社会保障・人口問題研究所のホームページからデータをダウンロード
-download.file(
-  "https://www.ipss.go.jp/site-ad/TopPageData/pyramidDataPP2023J_11.xlsx",
-  destfile = "files/pyramidDataPP2023J_11.xlsx",
-  method = "curl"
-)
+# 国立社会保障・人口問題研究所のホームページから人口ピラミッドのデータをダウンロード
+# 以前は国勢調査のデータと将来予測が同じファイルになっていたが，現在は別ファイル。
+# 予測人口は，出生中位，死亡中位のデータを用いる。
 
-# データの整理 年，年齢階級，性別，人口のlong形式に
-male <- read_excel(
-  "files/pyramidDataPP2023J_11.xlsx",
-  sheet = "M",
-  range = "B3:W110",
-  col_names = TRUE
-)
+URL_HIST <- "https://www.ipss.go.jp/site-ad/TopPageData/pyramidDataPP2023J_n.xlsx"
+URL_PROJ <- "https://www.ipss.go.jp/pp-zenkoku/j/zenkoku2023/db_zenkoku2023/s_tables/1-9.xlsx"
+PATH_HIST <- "files/pyramidDataPP2023J_n.xlsx"
+PATH_PROJ <- "files/1-9.xlsx"
 
-female <- read_excel(
-  "files/pyramidDataPP2023J_11.xlsx",
-  sheet = "F",
-  range = "B3:W110",
-  col_names = TRUE
-)
+# 1960~2020年（国勢調査ベース）
+download.file(URL_HIST, destfile = PATH_HIST, method = "curl", quiet = TRUE)
 
-age <- c("total", 0:105)
+# 2020~2070年（将来推計）出生中位，死亡中位
+download.file(URL_PROJ, destfile = PATH_PROJ, method = "curl", quiet = TRUE)
 
-male <- cbind(age, male) |>
-  pivot_longer(- age, names_to = c("year")) |>
-  filter(age != "total") |>
-  mutate(
-    gender = "M",
-    age = as.numeric(age),
-    value = -value
-  )
+parse_age <- function(x) {
+  x <- str_trim(as.character(x))
+  if_else(str_detect(x, "\\+$"), 105L, as.integer(str_extract(x, "^[0-9]+")))
+}
 
-female <- cbind(age, female) |>
-  pivot_longer(- age, names_to = c("year")) |>
-  filter(age != "total") |>
-  mutate(
-    gender = "F",
-    age = as.numeric(age)
-  )
+tidy_pyramid <- function(path) {
+  read_sex <- function(sheet, sex) {
+    yrs <- read_excel(path, sheet, range = "B3:N3", col_names = FALSE) |>
+      as.integer()
+    age <- read_excel(path, sheet, range = "A5:A110", col_names = FALSE)[[1]]
 
-population <- rbind(male, female)
+    read_excel(path, sheet, range = "B5:N110", col_names = FALSE) |>
+      set_names(yrs) |>
+      mutate(age = parse_age(age)) |>
+      pivot_longer(
+        -age,
+        names_to = "year",
+        values_to = "pop",
+        names_transform = as.integer
+      ) |>
+      mutate(sex = sex) |>
+      select(year, age, sex, pop)
+  }
 
-## ---- plot ----
-# 人口ピラミッドの描画
+  map2_dfr(c("M", "F"), c("male", "female"), read_sex)
+}
+
+read_block <- function(path, sheet, range) {
+  read_excel(path, sheet, range, col_names = FALSE) |>
+    set_names(c("age", "total", "male", "female")) |>
+    mutate(age = as.character(age))
+}
+
+tidy_projection <- function(path, sheet) {
+  meta <- read_excel(path, sheet, range = "A2:A2", col_names = FALSE)[[1]]
+  year <- as.integer(str_extract(meta, "(?<=\\()\\d{4}(?=\\))"))
+
+  bind_rows(
+    read_block(path, sheet, "A5:D59"),
+    read_block(path, sheet, "F5:I55")
+  ) |>
+    filter(!is.na(age)) |>
+    mutate(year = year, age = parse_age(age)) |>
+    select(year, age, male, female) |>
+    pivot_longer(c(male, female), names_to = "sex", values_to = "pop")
+}
+
+population <- bind_rows(
+  tidy_pyramid(PATH_HIST) |> filter(year < 2020),
+  map(excel_sheets(PATH_PROJ), \(s) tidy_projection(PATH_PROJ, s)) |>
+    list_rbind()
+) |>
+  arrange(year, sex, age) |>
+  mutate(pop = if_else(sex == "male", -pop, pop))
 
 # 人口ピラミッドを作成する年を指定
 years <- c(1965, 1980, 1995, 2010, 2040, 2070)
@@ -60,7 +83,7 @@ years <- c(1965, 1980, 1995, 2010, 2040, 2070)
 for (i in years) {
   fig <- population |>
     filter(year == i) |>
-    ggplot(aes(x = age, y = value, fill = gender)) +
+    ggplot(aes(x = age, y = pop, fill = sex)) +
     geom_bar(stat = "identity", color = "black", linewidth = 0.1) +
     scale_x_continuous(n.breaks = 10) +
     scale_y_continuous(
@@ -74,7 +97,7 @@ for (i in years) {
     ) +
     labs(title = i, y = "", x = "") +
     coord_flip() +
-    theme_classic(base_family = "IPAexGothic", base_size = 10) +
+    theme_classic() +
     theme(legend.position = "none")
 
   if (i == years[1]) {

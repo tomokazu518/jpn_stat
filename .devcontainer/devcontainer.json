@@ -1,0 +1,80 @@
+{
+    "name": "r-devcontainer",
+    "image": "ghcr.io/tomokazu518/r-devcontainer:latest",
+    "workspaceFolder": "/home/user/workspace",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/user/workspace,type=bind,consistency=cached",
+    "updateRemoteUserUID": false,
+    "shutdownAction": "stopContainer",
+    "containerEnv": {
+      "TZ": "Asia/Tokyo",
+      "HOME": "/home/user",
+      "TEXINPUTS": "/home/user/r-devcontainer/assets/latex//:",
+      "R_DEVCONTAINER_ROOT": "/home/user/r-devcontainer",
+      "WORKSPACE_ROOT": "/home/user/workspace",
+      "XDG_CACHE_HOME": "/home/user/.cache",
+      "XDG_CONFIG_HOME": "/home/user/.config",
+      "TINYTEX_ROOT": "/home/user/.TinyTeX",
+      "RENV_CONFIG_EXTERNAL_LIBRARIES": "/usr/local/lib/R/site-library",
+      "RENV_CONFIG_SYSREQS_CHECK": "FALSE",
+      "PATH": "/home/user/.local/bin:/home/user/.TinyTeX/bin/x86_64-linux:/home/user/.TinyTeX/bin/aarch64-linux:/home/user/.cargo/bin:/opt/quarto/bin/tools:/opt/quarto/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    },
+    "mounts": [
+      "source=${localWorkspaceFolder}/.config,target=/home/user/.config,type=bind",
+      "source=r-devcontainer-shared-cache,target=/home/user/.cache,type=volume",
+      "source=r-devcontainer-tinytex,target=/home/user/.TinyTeX,type=volume",
+      "source=r-devcontainer-local,target=/home/user/.local,type=volume",
+      "source=${localEnv:HOME}/r-devcontainer,target=/home/user/r-devcontainer,type=bind",
+      "source=${localEnv:HOME}/.ssh,target=/home/user/.ssh,type=bind"
+    ],
+    "postStartCommand": "bash /home/user/r-devcontainer/scripts/post-start-container.sh",
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "r.rterm.linux": "/home/user/.cargo/bin/arf",
+          "r.rpath.linux": "/usr/local/bin/R",
+          "r.bracketedPaste": true,
+          "r.lsp.enabled": false,
+          "[r]": {
+            "editor.formatOnSave": true,
+            "editor.defaultFormatter": "Posit.air-vscode"
+          },
+          "[latex]": {
+            "editor.formatOnSave": true,
+            "editor.defaultFormatter": "James-Yu.latex-workshop"
+          },
+          "[bibtex]": {
+            "editor.formatOnSave": true,
+            "editor.defaultFormatter": "James-Yu.latex-workshop"
+          },
+          "latex-workshop.formatting.latex": "tex-fmt",
+          "latex-workshop.formatting.tex-fmt.args": [
+            "--nowrap"
+          ],
+          "task.autoDetect": "off",
+          "task.quickOpen.skip": true,
+          "task.quickOpen.history": 10,
+          "task.quickOpen.showAll": false,
+          "npm.autoDetect": "off",
+          "typescript.tsc.autoDetect": "off",
+          "gulp.autoDetect": "off",
+          "grunt.autoDetect": "off",
+          "jake.autoDetect": "off",
+          "search.followSymlinks": false,
+          "files.watcherExclude": {
+            "**/renv/**": true,
+            "**/.quarto/**": true,
+            "**/_freeze/**": true,
+            "**/*-gnuplottex-fig*": true
+          }
+        },
+        "extensions": [
+          "quarto.quarto",
+          "james-yu.latex-workshop",
+          "tecosaur.latex-utilities",
+          "posit.air-vscode",
+          "REditorSupport.r-syntax"
+        ]
+      }
+    }
+  }
+  
