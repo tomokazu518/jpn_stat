@@ -77,6 +77,8 @@ population <- bind_rows(
   arrange(year, sex, age) |>
   mutate(pop = if_else(sex == "male", -pop, pop))
 
+## ---- plot ----
+
 # 人口ピラミッドを作成する年を指定
 years <- c(1965, 1980, 1995, 2010, 2040, 2070)
 
