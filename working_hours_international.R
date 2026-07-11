@@ -24,7 +24,7 @@ years_1 <-
 years_2 <-
     read_excel(
         file_name,
-        sheet = "6-1 (s2)"``,
+        sheet = "6-1 (s2)",
         range = "D5:K5",
         col_names = F
     )
