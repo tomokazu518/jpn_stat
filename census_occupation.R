@@ -6,7 +6,8 @@ library(stringi)
 # e-statのappIDが必要
 #   以下のページで利用申請(無料)をすればだれでも入手できる
 #   https://www.e-stat.go.jp/api/
-# appID = "入手したappIDをここに設定（行頭の#を外す）"
+# appID <- "入手したappIDをここに設定"
+appID <- Sys.getenv("ESTAT_APP_ID")
 
 # 国勢調査・時系列データ・人口の労働力状態，就業者の産業・職業　表番号7
 # 職業（大分類），男女別15歳以上就業者数－全国（平成7年～令和2年）
@@ -14,10 +15,10 @@ occupation_latest <-
   estat_getStatsData(
     appId = appID,
     statsDataId = "0003410408",
-    cdTab = "2020_45",      # 表章項目 == "人口構成比 [職業別]"
-    cdCat01From = 110,      # 職業分類
-    cdCat01To   = 220,      # 
-    cdCat02     = 100       # 男女_時系列 == "総数")
+    cdTab = "2020_45", # 表章項目 == "人口構成比 [職業別]"
+    cdCat01From = 110, # 職業分類
+    cdCat01To = 220, #
+    cdCat02 = 100 # 男女_時系列 == "総数")
   ) |>
   filter(substring(time_code, 9, 10) == "00") |>
   mutate(
@@ -30,12 +31,12 @@ occupation_latest <-
 # －全国（昭和25年～平成17年）※平成21年12月改訂前
 occupation_old <-
   estat_getStatsData(
-    appId = appID, 
+    appId = appID,
     statsDataId = "0003410409",
-    cdTab = "2020_45",      # 表章項目 == "割合"
-    cdCat01From = 110,      # 職業分類
-    cdCat01To   = 200,      # 
-    cdCat02     = 100       # 男女_時系列 == "総数")
+    cdTab = "2020_45", # 表章項目 == "割合"
+    cdCat01From = 110, # 職業分類
+    cdCat01To = 200, #
+    cdCat02 = 100 # 男女_時系列 == "総数")
   ) |>
   mutate(
     year = as.numeric(time_code) / 1000000,
@@ -82,7 +83,7 @@ occupation_since1995 <- occupation_latest |>
     `分類不能` = `Ｌ分類不能の職業`
   ) |>
   select(year, `専門的・技術的職業`:`分類不能`) |>
-  pivot_longer(- year, names_to = "occupation") |>
+  pivot_longer(-year, names_to = "occupation") |>
   mutate(occupation = factor(occupation, levels = occupations))
 
 
@@ -118,7 +119,6 @@ graph_occupation <- occupation |>
   geom_bar(stat = "identity", color = "black") +
   scale_fill_manual(name = "職業", values = clr) +
   labs(x = "年", y = "") +
-  theme_classic(base_family = "IPAexGothic", base_size = 16) +
-  theme(text = element_text(size = 11))
+  theme_classic(base_size = 16)
 
 plot(graph_occupation)

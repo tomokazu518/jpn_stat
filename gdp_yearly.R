@@ -5,7 +5,8 @@ library(patchwork)
 # e-statのappIDが必要
 #   以下のページで利用申請(無料)をすればだれでも入手できる
 #   https://www.e-stat.go.jp/api/
-# appID = "入手したappIDをここに設定（行頭の#を外す）"
+# appID <- "入手したappIDをここに設定"
+appID <- Sys.getenv("ESTAT_APP_ID")
 
 # 名目・実質・GDPデフレータ
 
@@ -37,7 +38,7 @@ gdp <- merge(nominal_gdp, real_gdp, by = "year")
 
 gdp <- gdp |>
   mutate(`GDPデフレータ` = `名目GDP` / `実質GDP` * 100) |>
-  pivot_longer(cols = - year)
+  pivot_longer(cols = -year)
 
 g1 <- gdp |>
   filter(name != "GDPデフレータ") |>
@@ -46,7 +47,7 @@ g1 <- gdp |>
   geom_line() +
   labs(y = "GDP(10億円)") +
   scale_color_hue(name = "") +
-  theme_classic(base_family = "IPAexGothic", base_size = 16) +
+  theme_classic(base_size = 16) +
   theme(legend.position = "bottom")
 
 g2 <- gdp |>
@@ -56,7 +57,7 @@ g2 <- gdp |>
   geom_line() +
   labs(y = "GDPデフレータ") +
   scale_color_hue(name = "") +
-  theme_classic(base_family = "IPAexGothic", base_size = 16) +
+  theme_classic(base_size = 16) +
   theme(legend.position = "bottom")
 
 plot(g1 + g2)

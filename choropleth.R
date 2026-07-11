@@ -1,27 +1,33 @@
 # 三重大学の奥村晴彦先生のホームページを参考にしている (感謝)
 # https://okumuralab.org/~okumura/stat/shape.html
 
-# ファイルのダウンロード先ディレクトリ作成
-dir.create("files", showWarnings = FALSE)
-
 library(tidyverse)
 library(sf)
+
+# ファイルのダウンロード先ディレクトリ作成
+dir.create("files", showWarnings = FALSE)
 
 # 国土交通省の国土数値情報ダウンロード＞行政区域データ
 # https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-v3_0.html
 # 　から全国の行政区域データ(shapeファイルを入手する)
 # 470MBほどある
 
-download.file(
-  "https://nlftp.mlit.go.jp/ksj/gml/data/N03/N03-2021/N03-20210101_GML.zip",
-  destfile = "files/N03-20210101_GML.zip",
-  method = "curl")
+url <- "https://nlftp.mlit.go.jp/ksj/gml/data/N03/N03-2021/N03-20210101_GML.zip"
+file_name <- "files/N03-20210101_GML.zip"
+
+if (!file.exists(file_name)) {
+  download.file(
+    url,
+    destfile = file_name,
+    method = "curl"
+  )
+}
 
 # zipファイルの解凍
-  # Rにもunzip()関数が用意されているが，
-  # フォルダの区切にバックスラッシュが使われているとうまく展開できないので，
-  # ターミナルで展開
-system("unzip files/N03-20210101_GML.zip -d files/")
+# Rにもunzip()関数が用意されているが，
+# フォルダの区切にバックスラッシュが使われているとうまく展開できないので，
+# ターミナルで展開
+system(paste("unzip", file_name, "-d files/"))
 
 ### 以上の作業は，必ずしもRでやらなくても，
 ### ブラウザでファイルをダウンロードして解凍してもOk
@@ -50,6 +56,6 @@ st_write(japan_prefectures, "japan_prefectures.geojson")
 graph_japan_prefectures <- japan_prefectures |>
   ggplot() +
   geom_sf() +
-  theme_classic(base_family = "IPAexGothic", base_size = 16)
+  theme_classic(base_size = 16)
 
 plot(graph_japan_prefectures)

@@ -7,7 +7,8 @@ library(patchwork)
 # e-statのappIDが必要
 #   以下のページで利用申請(無料)をすればだれでも入手できる
 #   https://www.e-stat.go.jp/api/
-# appID = "入手したappIDをここに設定（行頭の#を外す）"
+# appID <- "入手したappIDをここに設定"
+appID <- Sys.getenv("ESTAT_APP_ID")
 
 ## ---- data ----
 
