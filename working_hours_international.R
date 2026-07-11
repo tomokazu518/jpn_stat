@@ -71,7 +71,7 @@ data <- data %>%
         country = factor(country, levels = selected_countries)
     )
 
-data %>%
+g <- data %>%
     ggplot(aes(
         x = year,
         y = value,
@@ -85,3 +85,5 @@ data %>%
     scale_color_discrete(name = "") +
     scale_shape_discrete(name = "") +
     theme_classic(base_size = 16)
+
+plot(g)
