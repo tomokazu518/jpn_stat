@@ -1,6 +1,7 @@
 ## ---- setup ----
 
 library(tidyverse)
+appID <- Sys.getenv("ESTAT_APP_ID")
 
 ## ---- data ----
 # ファイルのダウンロード先ディレクトリ作成

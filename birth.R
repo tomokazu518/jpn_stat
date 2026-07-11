@@ -47,7 +47,9 @@ birth <- vital |>
     aes(
       label = paste(
         format(`出生数_総数`, big.mark = ","),
-        "\n (", year, ")",
+        "\n (",
+        year,
+        ")",
         sep = ""
       )
     ),
@@ -64,7 +66,7 @@ birth <- vital |>
     labels = scales::label_comma(),
     limits = c(0, 3500000)
   ) +
-  theme_classic(base_family = "IPAexGothic", base_size = 16)
+  theme_classic(base_size = 16)
 
 # 合計特殊出生率のグラフ
 
@@ -94,7 +96,7 @@ tfr <- vital |>
     x = "年",
     y = "合計特殊出生率"
   ) +
-  theme_classic(base_family = "IPAexGothic", base_size = 16)
+  theme_classic(base_size = 16)
 
 # patchworkパッケージを使ったプロット
 
