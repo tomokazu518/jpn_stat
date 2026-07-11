@@ -45,6 +45,6 @@ graph_hours <- maikin |>
     name = "就業形態",
     labels = w_status
   ) +
-  theme_classic(base_family = "IPAexGothic", base_size = 16)
+  theme_classic(base_size = 16)
 
 plot(graph_hours)
