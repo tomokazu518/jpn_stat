@@ -2,11 +2,12 @@ library(tidyverse)
 library(readxl)
 
 dir.create("files", showWarnings = FALSE)
+url <- "https://www.jil.go.jp/kokunai/statistics/databook/2026/06/d26_T6-01.xlsx"
 file_name <- "files/d26_T6-01.xlsx"
 
 if (!file.exists(file_name)) {
     download.file(
-        "https://www.jil.go.jp/kokunai/statistics/databook/2026/06/d26_T6-01.xlsx",
+        url,
         destfile = file_name,
         method = "curl"
     )
@@ -23,7 +24,7 @@ years_1 <-
 years_2 <-
     read_excel(
         file_name,
-        sheet = "6-1 (s2)",
+        sheet = "6-1 (s2)"``,
         range = "D5:K5",
         col_names = F
     )
