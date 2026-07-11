@@ -10,14 +10,19 @@ dir.create("files", showWarnings = FALSE)
 # 毎月勤労統計調査　　長期時系列表	実数・指数累積データ
 # 表番号1 実数・指数累積データ　実数
 
-download.file(
-  "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000032189776&fileKind=1",
-  destfile = "files/maikin.csv",
-  method = "curl"
-)
+url <- "https://www.e-stat.go.jp/stat-search/file-download?statInfId=000032189776&fileKind=1"
+file_name <- "files/hon-maikin-k-jissu.csv"
+
+if (!file.exists(file_name)) {
+  download.file(
+    url,
+    destfile = file_name,
+    method = "curl"
+  )
+}
 
 maikin <- read.csv(
-  "files/maikin.csv",
+  file_name,
   fileEncoding = "shift-jis"
 ) |>
   filter(
@@ -25,8 +30,7 @@ maikin <- read.csv(
       `月` == "CY" &
       substr(`産業分類`, 1, 2) == "TL" &
       `規模` == "T"
-  ) |>
-  mutate(`総実労働時間` = `総実労働時間` * 12)
+  )
 
 ## ---- plot ----
 w_status <- c("就業形態計", "一般労働者", "パートタイム労働者")
@@ -46,6 +50,6 @@ graph_hours <- maikin |>
     name = "就業形態",
     labels = w_status
   ) +
-  theme_classic(base_family = "IPAexGothic", base_size = 16)
+  theme_classic(base_size = 16)
 
 plot(graph_hours)
