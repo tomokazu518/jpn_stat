@@ -7,7 +7,6 @@ library(stringi)
 #   以下のページで利用申請(無料)をすればだれでも入手できる
 #   https://www.e-stat.go.jp/api/
 # appID <- "入手したappIDをここに設定"
-appID <- Sys.getenv("ESTAT_APP_ID")
 
 # 産業（大分類），男女別15歳以上就業者数
 # －全国（平成7年～令和2年）※平成19年11月改訂後
