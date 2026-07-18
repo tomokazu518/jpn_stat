@@ -129,11 +129,12 @@ industry <- rbind(industry_since1995, industry_before1995)
 
 clr <- c(brewer.pal(11, "Paired"), brewer.pal(8, "YlOrBr"), "#FFFFFF")
 
-graph_industry <- industry %>%
-  mutate(year = as.factor(year)) %>%
+graph_industry <- industry |>
+  mutate(year = as.factor(year)) |>
   ggplot(aes(x = year, y = value, fill = industry)) +
   geom_bar(stat = "identity", color = "black") +
   scale_fill_manual(name = "産業", values = clr) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   labs(x = "年", y = "") +
   theme_classic(base_size = 16)
 

@@ -117,6 +117,7 @@ graph_occupation <- occupation |>
   ggplot(aes(x = year, y = value, fill = occupation)) +
   geom_bar(stat = "identity", color = "black") +
   scale_fill_manual(name = "職業", values = clr) +
+  scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   labs(x = "年", y = "") +
   theme_classic(base_size = 16)
 
