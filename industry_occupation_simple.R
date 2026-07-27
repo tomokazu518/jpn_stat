@@ -14,7 +14,7 @@ clr_occupation <- c(brewer.pal(7, "Accent"), brewer.pal(4, "YlOrRd"), "#FFFFFF")
 
 ## ---- data_industry ----
 
-# 国勢調査・時系列データ・人口の労働力状態，就業者の産業・職業　表番号4　
+# 国勢調査・時系列データ・人口の労働力状態，就業者の産業・職業　表番号4
 
 # 産業（大分類），男女別15歳以上就業者数
 # －全国（平成7年～平成27年）※平成19年11月改訂後
@@ -22,10 +22,10 @@ industry_latest <-
   estat_getStatsData(
     appId = appID,
     statsDataId = "0003410395",
-    cdTab = "2020_44",      # 表章項目 == "人口構成比 [産業別]"
-    cdCat01From = 120,      # 産業分類
-    cdCat01To   = 330,      # 　総数，小計，再掲などを除く
-    cdCat02     = 100       # 男女_時系列 == "総数"
+    cdTab = "2020_44", # 表章項目 == "人口構成比 [産業別]"
+    cdCat01From = 120, # 産業分類
+    cdCat01To = 330, # 　総数，小計，再掲などを除く
+    cdCat02 = 100 # 男女_時系列 == "総数"
   ) |>
   filter(substring(time_code, 9, 10) == "00") |>
   mutate(
@@ -40,12 +40,12 @@ industry_old <-
   estat_getStatsData(
     appId = appID,
     statsDataId = "0003410396",
-    cdTab = "2020_44",      # 表章項目 == "人口構成比 [産業別]"
-    cdCat01From = 120,      # 産業分類
-    cdCat01Tob  = 330,      # 　総数を除く
-    cdCat02     = 100       # 男女_時系列 == "総数"
+    cdTab = "2020_44", # 表章項目 == "人口構成比 [産業別]"
+    cdCat01From = 120, # 産業分類
+    cdCat01Tob = 330, # 　総数を除く
+    cdCat02 = 100 # 男女_時系列 == "総数"
   ) |>
-  filter(cat01_code != 150 & cat01_code != 190) |>  # 小計(第n次産業)を除く
+  filter(cat01_code != 150 & cat01_code != 190) |> # 小計(第n次産業)を除く
   mutate(
     year = as.numeric(time_code) / 1000000,
     industry = `産業大分類（平成14年3月改訂前）`
@@ -65,7 +65,8 @@ graph_industry_latest <- industry_latest |>
   ) +
   geom_bar(
     stat = "identity",
-    color = "black"
+    color = "black",
+    linewidth = 0.05
   ) +
   scale_fill_manual(
     name = "産業",
@@ -79,7 +80,8 @@ graph_industry_latest <- industry_latest |>
   theme(
     legend.title = element_text(size = 10),
     legend.text = element_text(size = 9)
-  )
+  ) +
+  ggtitle("産業構造の変化　1995年以降 (新産業分類)")
 
 plot(graph_industry_latest)
 
@@ -96,7 +98,8 @@ graph_industry_old <- industry_old |>
   ) +
   geom_bar(
     stat = "identity",
-    color = "black"
+    color = "black",
+    linewidth = 0.05
   ) +
   scale_fill_manual(
     name = "産業",
@@ -110,7 +113,8 @@ graph_industry_old <- industry_old |>
   theme(
     legend.title = element_text(size = 10),
     legend.text = element_text(size = 9)
-  )
+  ) +
+  ggtitle("産業構造の変化　2000年以前 (旧産業分類)")
 
 plot(graph_industry_old)
 
@@ -122,10 +126,10 @@ occupation_latest <-
   estat_getStatsData(
     appId = appID,
     statsDataId = "0003410408",
-    cdTab = "2020_45",    # 表章項目 == "人口構成比 [職業別]"
-    cdCat01From = 110,    # 職業分類
-    cdCat01To   = 220,    #
-    cdCat02     = 100     # 男女_時系列 == "総数")
+    cdTab = "2020_45", # 表章項目 == "人口構成比 [職業別]"
+    cdCat01From = 110, # 職業分類
+    cdCat01To = 220, #
+    cdCat02 = 100 # 男女_時系列 == "総数")
   ) |>
   filter(substring(time_code, 9, 10) == "00") |>
   mutate(
@@ -140,10 +144,10 @@ occupation_old <-
   estat_getStatsData(
     appId = appID,
     statsDataId = "0003410409",
-    cdTab = "2020_45",      # 表章項目 == "割合"
-    cdCat01From = 110,      # 職業分類
-    cdCat01To   = 200,      #
-    cdCat02     = 100       # 男女_時系列 == "総数")
+    cdTab = "2020_45", # 表章項目 == "割合"
+    cdCat01From = 110, # 職業分類
+    cdCat01To = 200, #
+    cdCat02 = 100 # 男女_時系列 == "総数")
   ) |>
   mutate(
     year = as.numeric(time_code) / 1000000,
@@ -164,7 +168,8 @@ graph_occupation_latest <- occupation_latest |>
   ) +
   geom_bar(
     stat = "identity",
-    color = "black"
+    color = "black",
+    linewidth = 0.05
   ) +
   scale_fill_manual(
     name = "職業",
@@ -178,7 +183,8 @@ graph_occupation_latest <- occupation_latest |>
   theme(
     legend.title = element_text(size = 10),
     legend.text = element_text(size = 9)
-  )
+  ) +
+  ggtitle("職業構造の変化　1995年以降 (新職業分類)")
 
 plot(graph_occupation_latest)
 
@@ -195,7 +201,8 @@ graph_occupation_old <- occupation_old |>
   ) +
   geom_bar(
     stat = "identity",
-    color = "black"
+    color = "black",
+    linewidth = 0.05
   ) +
   scale_fill_manual(
     name = "職業",
@@ -209,6 +216,7 @@ graph_occupation_old <- occupation_old |>
   theme(
     legend.title = element_text(size = 10),
     legend.text = element_text(size = 9)
-  )
+  ) +
+  ggtitle("職業構造の変化　2000年以前 (旧職業分類)")
 
 plot(graph_occupation_old)

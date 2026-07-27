@@ -86,7 +86,7 @@ for (i in years) {
   fig <- population |>
     filter(year == i) |>
     ggplot(aes(x = age, y = pop, fill = sex)) +
-    geom_bar(stat = "identity", color = "black", linewidth = 0.1) +
+    geom_bar(stat = "identity", color = "black", linewidth = 0.05) +
     scale_x_continuous(n.breaks = 10) +
     scale_y_continuous(
       limits = c(-1250, 1250),
@@ -99,7 +99,7 @@ for (i in years) {
     ) +
     labs(title = i, y = "", x = "") +
     coord_flip() +
-    theme_classic() +
+    theme_classic(base_size = 16) +
     theme(legend.position = "none")
 
   if (i == years[1]) {
