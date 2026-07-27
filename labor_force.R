@@ -200,8 +200,11 @@ graph_female_age <- lf_by_age |>
     legend.text = element_text(size = 7)
   )
 
-plot(graph_male_age + graph_female_age) +
-  plot_annotation(title = "年齢階級別労働力率の推移")
+plot(
+  graph_male_age +
+    graph_female_age +
+    plot_annotation(title = "年齢階級別労働力率の推移")
+)
 
 ## ---- plot_mcurve ----
 # M字カーブのデータ整理

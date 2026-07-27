@@ -104,5 +104,6 @@ tfr <- vital |>
 graph <- birth +
   tfr +
   plot_layout(ncol = 1) +
-  plot_annotation(title = "出生数と合計特殊出生率の推移)
+  plot_annotation(title = "出生数と合計特殊出生率の推移")
+
 plot(graph)
