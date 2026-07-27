@@ -135,7 +135,7 @@ for (i in seq_along(start)) {
 
   # x軸の目盛りラベル（2年おきにラベル）
   years <- unique(graphdata$year)
-  xlabels <- years[seq(1, length(years), by = 2)] # 2年おき
+  xlabels <- years[seq(1, length(years), by = 1)] # 2年おき
 
   # ggplot
 
@@ -176,7 +176,7 @@ for (i in seq_along(start)) {
         y = value,
         color = name
       ),
-      size = 0.5
+      size = 0.75
     ) +
     scale_color_manual(
       # 色と凡例の設定
@@ -186,10 +186,18 @@ for (i in seq_along(start)) {
     ) +
     scale_x_continuous(
       name = "", # x軸のラベルの設定
-      breaks = seq(start[i], end[i], by = 8), # 2年おき（8四半期おき）
+      breaks = seq(start[i], end[i], by = 4), # 2年おき（8四半期おき）
       labels = xlabels
     ) +
     scale_y_continuous(name = "") +
-    theme_classic(base_size = 16)
+    theme_classic(base_size = 16) +
+    ggtitle(paste(
+      "四半期GDP速報 (",
+      xlabels[1],
+      "~",
+      xlabels[length(xlabels)],
+      ")",
+      sep = ""
+    ))
   plot(g)
 }

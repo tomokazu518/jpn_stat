@@ -101,5 +101,8 @@ tfr <- vital |>
 
 # patchworkパッケージを使ったプロット
 
-graph <- birth + tfr + plot_layout(ncol = 1)
+graph <- birth +
+  tfr +
+  plot_layout(ncol = 1) +
+  plot_annotation(title = "出生数と合計特殊出生率")
 plot(graph)
