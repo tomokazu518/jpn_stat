@@ -55,7 +55,7 @@ graph_pop2020 <- pop2020 |>
   geom_bar(
     stat = "identity",
     color = "black",
-    linewidth = 0.25
+    linewidth = 0.05
   ) +
   scale_x_continuous(n.breaks = 10) +
   scale_y_continuous(
