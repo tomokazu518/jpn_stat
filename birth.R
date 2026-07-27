@@ -27,7 +27,7 @@ vital <- estat_vital |>
   filter(year >= 1947) |>
   pivot_wider(names_from = name)
 
-## ---- plot_birth ----
+## ---- plot ----
 
 # 出生数のグラフ
 
