@@ -118,7 +118,7 @@ graph_occupation <- occupation |>
   geom_bar(
     stat = "identity",
     color = "black",
-    linewidth = 0.1
+    linewidth = 0.25
   ) +
   scale_fill_manual(name = "職業", values = clr) +
   scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
