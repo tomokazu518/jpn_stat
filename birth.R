@@ -40,7 +40,8 @@ birth <- vital |>
   ) +
   geom_bar(
     stat = "identity",
-    color = "gray",
+    color = "black",
+    linewidth = 0.6,
     fill = "lightgray"
   ) +
   geom_text(
@@ -79,7 +80,7 @@ tfr <- vital |>
   ) +
   geom_line(color = "gray") +
   geom_point(
-    size = 1,
+    size = 0.5,
     color = "blue"
   ) +
   ylim(0.5, 5) +
