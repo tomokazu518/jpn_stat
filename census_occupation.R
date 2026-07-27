@@ -122,7 +122,7 @@ graph_occupation <- occupation |>
   ) +
   scale_fill_manual(name = "職業", values = clr) +
   scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
-  labs(x = "年", y = "") +
+  labs(x = "年", y = "", title = "職業構成の変化") +
   theme_classic(base_size = 16)
 
 plot(graph_occupation)

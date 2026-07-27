@@ -139,7 +139,7 @@ graph_industry <- industry |>
   ) +
   scale_fill_manual(name = "産業", values = clr) +
   scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
-  labs(x = "年", y = "") +
+  labs(x = "年", y = "", title = "産業構造の変化") +
   theme_classic(base_size = 16)
 
 plot(graph_industry)
