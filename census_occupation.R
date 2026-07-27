@@ -115,7 +115,11 @@ clr <- c(brewer.pal(7, "Accent"), brewer.pal(5, "YlOrRd"), "#FFFFFF")
 graph_occupation <- occupation |>
   mutate(year = as.factor(year)) |>
   ggplot(aes(x = year, y = value, fill = occupation)) +
-  geom_bar(stat = "identity", color = "black") +
+  geom_bar(
+    stat = "identity",
+    color = "black",
+    linewidth = 0.1
+  ) +
   scale_fill_manual(name = "職業", values = clr) +
   scale_x_discrete(guide = guide_axis(n.dodge = 2)) +
   labs(x = "年", y = "") +
