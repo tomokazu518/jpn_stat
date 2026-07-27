@@ -90,14 +90,18 @@ population_laborforce <- rbind(
     mutate(
       category = factor(
         case_when(
-          `就業状態` == "15歳以上人口" & `年齢階級` == "15歳以上" ~ "15歳以上人口",
-          `就業状態` == "15歳以上人口" & `年齢階級` == "15～64歳" ~ "生産年齢人口",
+          `就業状態` == "15歳以上人口" &
+            `年齢階級` == "15歳以上" ~ "15歳以上人口",
+          `就業状態` == "15歳以上人口" &
+            `年齢階級` == "15～64歳" ~ "生産年齢人口",
           `就業状態` == "労働力人口" & `年齢階級` == "15～64歳" ~ "労働力人口",
           TRUE ~ ""
         ),
         levels = c(
-          "総人口", "15歳以上人口",
-          "生産年齢人口", "労働力人口"
+          "総人口",
+          "15歳以上人口",
+          "生産年齢人口",
+          "労働力人口"
         )
       )
     ) |>
@@ -123,8 +127,8 @@ graph_population_laborforce <- population_laborforce |>
   geom_point(size = 1) +
   scale_color_discrete(name = "") +
   scale_shape_discrete(name = "") +
-  labs(x = "年", y = "人口(万人)") +
-  theme_classic(base_family = "IPAexGothic", base_size = 16)
+  labs(x = "年", y = "人口(万人)", title = "人口と労働力人口の推移") +
+  theme_classic(base_size = 16)
 
 plot(graph_population_laborforce)
 
@@ -136,7 +140,7 @@ lf_by_age <- labor_force |>
   pivot_wider(names_from = `年齢階級`) |>
   mutate(`25～54歳` = `25～34歳` + `35～44歳` + `45～54歳`) |> # 25~54歳までをまとめる
   pivot_longer(
-    - c("year", "性別", "就業状態"),
+    -c("year", "性別", "就業状態"),
     names_to = "年齢階級"
   ) |>
   pivot_wider(
@@ -169,16 +173,16 @@ graph_male_age <- lf_by_age |>
     x = "年",
     y = "労働力率"
   ) +
-  theme_classic(base_family = "IPAexGothic", base_size = 12) +
+  theme_classic(base_size = 12) +
   theme(legend.position = "none")
 
 graph_female_age <- lf_by_age |>
   filter(`性別` == "女" & `年齢階級` %in% age_groups) |>
   ggplot(
     aes(
-      x = year, 
+      x = year,
       y = participation_rate,
-      color = `年齢階級`, 
+      color = `年齢階級`,
       shape = `年齢階級`
     )
   ) +
@@ -190,13 +194,14 @@ graph_female_age <- lf_by_age |>
     x = "年",
     y = ""
   ) +
-  theme_classic(base_family = "IPAexGothic", base_size = 12) +
+  theme_classic(base_size = 12) +
   theme(
     legend.title = element_text(size = 8),
     legend.text = element_text(size = 7)
   )
 
-plot(graph_male_age + graph_female_age)
+plot(graph_male_age + graph_female_age) +
+  plot_annotation(title = "年齢階級別労働力率の推移")
 
 ## ---- plot_mcurve ----
 # M字カーブのデータ整理
@@ -204,24 +209,24 @@ plot(graph_male_age + graph_female_age)
 years <- c(1970, 1990, 2010, 2020)
 
 age_groups <- c(
-  "15～19歳", 
-  "20～24歳", 
-  "25～29歳", 
-  "30～34歳", 
+  "15～19歳",
+  "20～24歳",
+  "25～29歳",
+  "30～34歳",
   "35～39歳",
-  "40～44歳", 
-  "45～49歳", 
-  "50～54歳", 
-  "55～59歳", 
+  "40～44歳",
+  "45～49歳",
+  "50～54歳",
+  "55～59歳",
   "60～64歳"
 )
 
 m_curve <- lf_by_age |>
   filter(
     (`性別` == "女" & year %in% years & `年齢階級` %in% age_groups) | # 女性
-      (`性別` == "男" & year %in% c(years[1], years[length(years)]) &
-          `年齢階級` %in% age_groups
-      ) # 男性は最初と最後の年のみ
+      (`性別` == "男" &
+        year %in% c(years[1], years[length(years)]) &
+        `年齢階級` %in% age_groups) # 男性は最初と最後の年のみ
   ) |>
   mutate(`性別・年` = paste(`性別`, "(", year, ")", sep = ""))
 
@@ -256,7 +261,7 @@ graph_m_curve <- m_curve |>
       "dotted"
     )
   ) +
-  labs(y = "労働力率") +
+  labs(y = "労働力率", title = "M字カーブ") +
   theme_classic(base_family = "IPAexGothic", base_size = 16) +
   theme(legend.position = "right")
 
