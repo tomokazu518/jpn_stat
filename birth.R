@@ -41,7 +41,7 @@ birth <- vital |>
   geom_bar(
     stat = "identity",
     color = "black",
-    linewidth = 0.6,
+    linewidth = 0.05,
     fill = "lightgray"
   ) +
   geom_text(
