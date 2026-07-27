@@ -36,7 +36,7 @@ pop2020 <- estat_census2020 |>
     age = as.numeric(cat03_code) - 1,
     value = case_when(
       `男女` == "男" ~ -value / 1000, # 男性の人口はマイナス(人口ピラミッドを描くため)
-      `男女` == "女" ~ value / 1000   # 人口は1000人単位に
+      `男女` == "女" ~ value / 1000 # 人口は1000人単位に
     )
   ) |>
   select(age, `男女`, value)
@@ -45,17 +45,22 @@ pop2020 <- estat_census2020 |>
 # 人口ピラミッドの描画
 graph_pop2020 <- pop2020 |>
   ggplot(
-    aes( # x軸に年齢，y軸に人口をとり性別で塗り分け(縦横は入れ替える)
+    aes(
+      # x軸に年齢，y軸に人口をとり性別で塗り分け(縦横は入れ替える)
       x = age,
       y = value,
       fill = `男女`
     )
   ) +
-  geom_bar(stat = "identity", color = "black") +
+  geom_bar(
+    stat = "identity",
+    color = "black",
+    linewidth = 0.25
+  ) +
   scale_x_continuous(n.breaks = 10) +
   scale_y_continuous(
-    breaks = seq(- 1000, 1000, 500),
-    labels = abs(seq(- 1000, 1000, 500))
+    breaks = seq(-1000, 1000, 500),
+    labels = abs(seq(-1000, 1000, 500))
   ) +
   scale_fill_hue(
     name = "",
