@@ -89,13 +89,19 @@ g1 <- long_data_1 |>
   labs(x = "", y = "就業者数 (万人)") +
   geom_label_repel(
     data = filter(long_data_1, year == 1993),
-    aes(label = occupation),
-    size = 3,
-    show.legend = FALSE,
-    family = "IPAexGothic"
+    aes(label = occupation, fill = occupation),
+    color = "black",
+    size = 5,
+    show.legend = FALSE
   ) +
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
-  theme_classic(base_family = "IPAexGothic", base_size = 16) +
+  scale_fill_manual(
+    values = base_pal,
+    limits = all_occ,
+    drop = FALSE,
+    guide = "none"
+  ) +
+  theme_classic(base_size = 16) +
   theme(legend.position = "none")
 
 g2 <- long_data_2 |>
@@ -106,13 +112,19 @@ g2 <- long_data_2 |>
   labs(x = "", y = "") +
   geom_label_repel(
     data = filter(long_data_2, year == 2016),
-    aes(label = occupation),
-    size = 3,
-    show.legend = FALSE,
-    family = "IPAexGothic"
+    aes(label = occupation, fill = occupation),
+    color = "black",
+    size = 5,
+    show.legend = FALSE
   ) +
   scale_color_manual(values = base_pal, limits = all_occ, drop = FALSE) +
-  theme_classic(base_family = "IPAexGothic", base_size = 16) +
+  scale_fill_manual(
+    values = base_pal,
+    limits = all_occ,
+    drop = FALSE,
+    guide = "none"
+  ) +
+  theme_classic(base_size = 16) +
   theme(legend.position = "none")
 
 plot(g1 + g2)
