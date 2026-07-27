@@ -14,9 +14,9 @@ standard <- estat_getStatsData(
   appId = appID,
   cdTab = c("42", "44"),
   statsDataId = "0003447178",
-  cdCat01 = c("02", "03"),         # 性別　男・女
-  cdCat02 = c("03", "06", "07"),   # 学歴　高校・大学・大学院
-  cdCat05 = "01",                  # 産業計
+  cdCat01 = c("02", "03"), # 性別　男・女
+  cdCat02 = c("03", "06", "07"), # 学歴　高校・大学・大学院
+  cdCat05 = "01", # 産業計
   cdTime = c("2023000000")
 ) |>
   select(
@@ -61,19 +61,19 @@ graph_education <- standard |>
   filter(
     firm_size == "企業規模計（10人以上）",
     age <= 60,
-    ! is.na(wage)
+    !is.na(wage)
   ) |>
-  ggplot(aes(x = age, y = wage, color =  education)) +
+  ggplot(aes(x = age, y = wage, color = education)) +
   geom_line() +
-  geom_point() +
+  geom_point(size = 0.5) +
   scale_color_hue(name = "学歴") +
   labs(
     title = "標準労働者の学歴別賃金プロファイル",
     x = "年齢",
     y = "年収(万円)"
   ) +
-  facet_wrap(~ gender) +
-  theme_classic(base_family = "IPAexGothic", base_size = 16) +
+  facet_wrap(~gender) +
+  theme_classic(base_size = 16) +
   theme(
     panel.grid.major = element_line(color = "grey85", linewidth = 0.3),
     panel.grid.minor = element_line(color = "grey92", linewidth = 0.2)
@@ -88,19 +88,19 @@ graph_firmsize <- standard |>
     education == "大学",
     firm_size != "企業規模計（10人以上）",
     age <= 60,
-    ! is.na(wage)
+    !is.na(wage)
   ) |>
   ggplot(aes(x = age, y = wage, color = firm_size)) +
   geom_line() +
-  geom_point() +
+  geom_point(size = 0.5) +
   scale_color_hue(name = "企業規模") +
   labs(
     title = "大学卒標準労働者の企業規模別賃金プロファイル",
     x = "年齢",
     y = "年収(万円)"
   ) +
-  facet_wrap(~ gender) +
-  theme_classic(base_family = "IPAexGothic", base_size = 16) +
+  facet_wrap(~gender) +
+  theme_classic(base_size = 16) +
   theme(
     panel.grid.major = element_line(color = "grey85", linewidth = 0.3),
     panel.grid.minor = element_line(color = "grey92", linewidth = 0.2)
