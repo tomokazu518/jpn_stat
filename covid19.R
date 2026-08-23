@@ -26,7 +26,11 @@ covid <- cbind(
 graph_covid <- covid |>
   ggplot(aes(fill = value)) +
   geom_sf() +
-  scale_fill_continuous("死亡者数(累積)", low = "white", high = "red") +
+  scale_fill_continuous(
+    "死亡者数(累積)",
+    low = "white",
+    high = "red"
+  ) +
   theme_classic(base_size = 16)
 
 plot(graph_covid)

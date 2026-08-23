@@ -75,6 +75,6 @@ graph_pop2020 <- pop2020 |>
     title = "人口ピラミッド (2020年)"
   ) +
   coord_flip() + # グラフの回転 (縦軸と横軸の入替)
-  theme_classic(base_family = "IPAexGothic", base_size = 16)
+  theme_classic(base_size = 16)
 
 plot(graph_pop2020)

@@ -65,7 +65,7 @@ graph_education <- standard |>
   ) |>
   ggplot(aes(x = age, y = wage, color = education)) +
   geom_line() +
-  geom_point(size = 0.5) +
+  geom_point(size = 0.75) +
   scale_color_hue(name = "学歴") +
   labs(
     title = "標準労働者の学歴別賃金プロファイル",
@@ -92,7 +92,7 @@ graph_firmsize <- standard |>
   ) |>
   ggplot(aes(x = age, y = wage, color = firm_size)) +
   geom_line() +
-  geom_point(size = 0.5) +
+  geom_point(size = 0.75) +
   scale_color_hue(name = "企業規模") +
   labs(
     title = "大学卒標準労働者の企業規模別賃金プロファイル",
