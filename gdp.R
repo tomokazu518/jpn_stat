@@ -121,14 +121,15 @@ palette <- c(
 # グラフは4分割 (期間の始めと終わりを通し番号で指定)
 # 1995年の第一四半期 (number=5)から始める
 # startは第一四半期(4の倍数+1)になるように、区間幅を4の倍数に丸める
-length <- nrow(qgdp) # データの長さ
-total_quarters <- length - 4 # number=5 から length までの四半期数
+n <- nrow(qgdp) # データの長さ
+total_quarters <- n - 4 # number=5 から n までの四半期数
 chunk <- ceiling((total_quarters / 4) / 4) * 4 # 1枚のグラフに表示する四半期数 (必ず4の倍数に)
 start <- 5 + (0:3) * chunk
-end <- pmin(start + chunk - 1, length)
-end[4] <- length
+end <- pmin(start + chunk - 1, n)
+end[4] <- n
 
 # グラフの作成
+g <- vector("list", length(start))
 for (i in seq_along(start)) {
   # 期間の限定
   graphdata <- filter(growth, number >= start[i] & number <= end[i])
@@ -139,7 +140,7 @@ for (i in seq_along(start)) {
 
   # ggplot
 
-  g <- ggplot() +
+  g[[i]] <- ggplot() +
     geom_bar(
       data = filter(graphdata, name != "growth"),
       stat = "identity",
@@ -199,5 +200,5 @@ for (i in seq_along(start)) {
       ")",
       sep = ""
     ))
-  plot(g)
+  plot(g[[i]])
 }
