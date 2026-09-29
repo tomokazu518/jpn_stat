@@ -11,7 +11,7 @@ library(patchwork)
 
 nominal_gdp <- estat_getStatsData(
   appId = appID,
-  statsDataId = "0004028475",
+  statsDataId = "0004049749",
   cdTab = "11",
   cdCat01 = "47"
 ) |>
@@ -23,7 +23,7 @@ nominal_gdp <- estat_getStatsData(
 
 real_gdp <- estat_getStatsData(
   appId = appID,
-  statsDataId = "0004028480",
+  statsDataId = "0004049754",
   cdTab = "11",
   cdCat01 = "67"
 ) |>
